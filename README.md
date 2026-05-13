@@ -7,59 +7,59 @@ A community-made enhancement project for Silent Hill 3 PC, fixing bugs, improvin
 
 ---
 
-## Features
+## Planned Features
 
 ### Graphics
-- **Widescreen Fix** — Correct FOV and aspect ratio for modern monitors
-- **Custom Resolution** — Set any screen and render resolution
-- **Remove Black Bars** — Removes the permanent black bars on screen
-- **Remove Cutscene Borders** — Removes the borders added during cutscenes
-- **4:3 2D Elements** — Keeps HUD and menus at 4:3 while gameplay uses full widescreen
-- **Fullscreen Pause Menu** — Stretches the pause menu to fill the screen
-- **FMV Fix** — FMVs displayed at correct 4:3 aspect ratio and optionally fullscreen
-- **DoF Resolution** — Increases depth of field render resolution (default: 1024)
-- **Shadow Resolution** — Increases shadow map resolution (default: 1024)
-- **Inventory Resolution** — Increases inventory background resolution (default: 1024)
-- **Status Screen Resolution** — Increases status screen resolution (default: 1024)
-- **Anisotropic Texture Filtering** — Enables highest supported AF level
-- **Fog Control** — Adjusts fog complexity to match PS2 quality
-- **Motion Trail Fix** — Fixes dark motion trails caused by bloom on light sources
-- **Animated Wall Texture Fix** — Fixes broken animated textures when using d3d8to9
+- [ ] **Widescreen Fix** — Correct FOV and aspect ratio for modern monitors
+- [ ] **Custom Resolution** — Set any screen and render resolution
+- [ ] **Remove Black Bars** — Removes the permanent black bars on screen
+- [ ] **Remove Cutscene Borders** — Removes the borders added during cutscenes
+- [ ] **4:3 2D Elements** — Keeps HUD and menus at 4:3 while gameplay uses full widescreen
+- [ ] **Fullscreen Pause Menu** — Stretches the pause menu to fill the screen
+- [ ] **FMV Fix** — FMVs displayed at correct 4:3 aspect ratio and optionally fullscreen
+- [ ] **DoF Resolution** — Increases depth of field render resolution (default: 1024)
+- [ ] **Shadow Resolution** — Increases shadow map resolution (default: 1024)
+- [ ] **Inventory Resolution** — Increases inventory background resolution (default: 1024)
+- [ ] **Status Screen Resolution** — Increases status screen resolution (default: 1024)
+- [ ] **Anisotropic Texture Filtering** — Enables highest supported AF level
+- [ ] **Fog Control** — Adjusts fog complexity to match PS2 quality
+- [ ] **Motion Trail Fix** — Fixes dark motion trails caused by bloom on light sources
+- [ ] **Animated Wall Texture Fix** — Fixes broken animated textures when using d3d8to9
 
 ### Performance / Framerate
-- **60 FPS Mode** — Stable 60fps with proper game speed
-- **Multiple FPS Modes** — 30fps / 60fps / unlocked
-- **Mirror Room Fix** — Forces 30fps in the hospital storeroom where effects require it
-- **MSAA / DoF Fix** — Disables MSAA which corrupts the depth of field effect; recommends FXAA instead
+- [ ] **60 FPS Mode** — Stable 60fps with proper game speed
+- [ ] **Multiple FPS Modes** — 30fps / 60fps / unlocked
+- [ ] **Mirror Room Fix** — Forces 30fps in the hospital storeroom where effects require it
+- [ ] **MSAA / DoF Fix** — Disables MSAA which corrupts the depth of field effect; recommends FXAA instead
 
 ### System / Stability
-- **Registry Redirect** — Redirects HKEY_LOCAL_MACHINE registry reads to HKEY_CURRENT_USER, fixing "game not installed properly" error without admin rights
-- **Safe Mode Disable** — Prevents the game from reverting settings after a crash or Alt+F4
-- **Options Menu Freeze Fix** — Fixes the game hanging in the options menu
-- **CPU Affinity Fix** — Configurable CPU core affinity to fix frame rate fluctuation
-- **Windowed / Borderless Mode** — Run the game in a window or borderless fullscreen
-- **White Border Fix** — Fixes white border rendering on Windows 10/11
-- **d3d8to9** — Converts DirectX 8 to DirectX 9 for better compatibility and performance
-- **Exception Handler** — Installs a crash handler that writes minidump files
+- [ ] **Registry Redirect** — Redirects HKEY_LOCAL_MACHINE registry reads to HKEY_CURRENT_USER, fixing "game not installed properly" error without admin rights
+- [ ] **Safe Mode Disable** — Prevents the game from reverting settings after a crash or Alt+F4
+- [ ] **Options Menu Freeze Fix** — Fixes the game hanging in the options menu
+- [ ] **CPU Affinity Fix** — Configurable CPU core affinity to fix frame rate fluctuation
+- [ ] **Windowed / Borderless Mode** — Run the game in a window or borderless fullscreen
+- [ ] **White Border Fix** — Fixes white border rendering on Windows 10/11
+- [ ] **d3d8to9** — Converts DirectX 8 to DirectX 9 for better compatibility and performance
+- [ ] **Exception Handler** — Installs a crash handler that writes minidump files
 
 ### Audio
-- **Restore Missing Dialogue** — Restores dialogue audio removed from the PC release
-- **Restore Beta Sounds** — Optionally restores cut beta sound effects
-- **Audio Pulse Fix** — Replaces unreliable PulseEvent audio sync
-- **Muted Audio Fix** — Fixes audio getting muted after a crash during the TV or Lisa scene
+- [ ] **Restore Missing Dialogue** — Restores dialogue audio removed from the PC release
+- [ ] **Restore Beta Sounds** — Optionally restores cut beta sound effects
+- [ ] **Audio Pulse Fix** — Replaces unreliable PulseEvent audio sync
+- [ ] **Muted Audio Fix** — Fixes audio getting muted after a crash during the TV or Lisa scene
 
 ### Content / Text
-- **"Wish House" Fix** — Corrects all instances of "Hope House" to "Wish House" (EN)
-- **Typo Fixes** — Fixes several typos across subway, apartments, and hospital levels (EN)
-- **Missing Sewer Text** — Restores untranslated text in the sewer level (EN)
-- **Unlock SH2 Easter Eggs** — Unlocks Silent Hill 2 references without completing the game
+- [ ] **"Wish House" Fix** — Corrects all instances of "Hope House" to "Wish House" (EN)
+- [ ] **Typo Fixes** — Fixes several typos across subway, apartments, and hospital levels (EN)
+- [ ] **Missing Sewer Text** — Restores untranslated text in the sewer level (EN)
+- [ ] **Unlock SH2 Easter Eggs** — Unlocks Silent Hill 2 references without completing the game
 
 ---
 
 ## Installation
 
 1. Install Silent Hill 3 PC
-2. Download the latest SH3Enhanced release
+2. Download the latest [SH3Enhanced release](https://github.com/amiraliuks/silent-hill-3-enhanced/releases)
 3. Extract all files into the Silent Hill 3 root directory (where `sh3.exe` is)
 4. Launch the game normally
 
