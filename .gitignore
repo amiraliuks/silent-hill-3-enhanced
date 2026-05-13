@@ -31,5 +31,26 @@
 *.out
 *.app
 
-# VS folder
+# Visual Studio
 .vs/
+*.user
+*.suo
+*.aps
+
+# Build output
+Win32/
+x64/
+Debug/
+Release/
+
+# Compiled output
+*.asi
+*.dll
+*.pdb
+*.ilk
+*.exp
+*.lib
+
+# OS
+Thumbs.db
+desktop.ini
