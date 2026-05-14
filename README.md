@@ -27,8 +27,8 @@ A community-made enhancement project for Silent Hill 3 PC, fixing bugs, improvin
 - [ ] **Animated Wall Texture Fix** — Fixes broken animated textures when using d3d8to9
 
 ### Performance / Framerate
-- [ ] **60 FPS Mode** — Stable 60fps with proper game speed
-- [ ] **Multiple FPS Modes** — 30fps / 60fps / unlocked
+- [x] **60 FPS Mode** — Stable 60fps with proper game speed
+- [x] **Multiple FPS Modes** — 30fps / 60fps / unlocked
 - [ ] **Mirror Room Fix** — Forces 30fps in the hospital storeroom where effects require it
 - [ ] **MSAA / DoF Fix** — Disables MSAA which corrupts the depth of field effect; recommends FXAA instead
 
