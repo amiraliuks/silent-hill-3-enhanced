@@ -33,7 +33,7 @@ A community-made enhancement project for Silent Hill 3 PC, fixing bugs, improvin
 - [ ] **MSAA / DoF Fix** — Disables MSAA which corrupts the depth of field effect; recommends FXAA instead
 
 ### System / Stability
-- [ ] **Registry Redirect** — Redirects HKEY_LOCAL_MACHINE registry reads to HKEY_CURRENT_USER, fixing "game not installed properly" error without admin rights
+- [x] **Registry Redirect** — Redirects HKEY_LOCAL_MACHINE registry reads to HKEY_CURRENT_USER, fixing "game not installed properly" error without admin rights
 - [x] **Safe Mode Disable** — Prevents the game from reverting settings after a crash or Alt+F4
 - [ ] **Options Menu Freeze Fix** — Fixes the game hanging in the options menu
 - [ ] **CPU Affinity Fix** — Configurable CPU core affinity to fix frame rate fluctuation
