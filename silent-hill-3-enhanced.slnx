@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="silent-hill-3-enhanced.vcxproj" />
+  <Project Path="silent-hill-3-enhanced.vcxproj" Id="e8dd97ad-9756-4162-84cc-5864b3e62944" />
 </Solution>

@@ -34,14 +34,18 @@
 # Visual Studio
 .vs/
 *.user
+*.vcxproj.user
 *.suo
+*.VC.db
+*.VC.opendb
 *.aps
 
 # Build output
-Win32/
-x64/
 Debug/
 Release/
+x64/
+Win32/
+ipch/
 
 # Compiled output
 *.asi
