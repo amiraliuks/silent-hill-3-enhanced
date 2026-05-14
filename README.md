@@ -34,7 +34,7 @@ A community-made enhancement project for Silent Hill 3 PC, fixing bugs, improvin
 
 ### System / Stability
 - [ ] **Registry Redirect** — Redirects HKEY_LOCAL_MACHINE registry reads to HKEY_CURRENT_USER, fixing "game not installed properly" error without admin rights
-- [ ] **Safe Mode Disable** — Prevents the game from reverting settings after a crash or Alt+F4
+- [x] **Safe Mode Disable** — Prevents the game from reverting settings after a crash or Alt+F4
 - [ ] **Options Menu Freeze Fix** — Fixes the game hanging in the options menu
 - [ ] **CPU Affinity Fix** — Configurable CPU core affinity to fix frame rate fluctuation
 - [ ] **Windowed / Borderless Mode** — Run the game in a window or borderless fullscreen
