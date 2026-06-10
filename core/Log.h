@@ -9,7 +9,7 @@
 // Simple logging helper used by the patch system.
 //
 // Mainly useful for debugging failed pattern scans or verifying
-// that hooks were applied at the ecxpected addresses.
+// that hooks were applied at the expected addresses.
 // 
 // Logging modes (set in the INI):
 //  0 = disabled

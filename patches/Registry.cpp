@@ -107,7 +107,7 @@ namespace Patches
         return RegOpenKeyExW(hKey, lpSubKey, ulOptions, samDesired, phkResult);
     }
 
-    // Replace a function iside the executable's import table
+    // Replace a function inside the executable's import table
     static void PatchIATEntry(const char* targetDll,
         const char* funcName,
         void* hookFunc)
@@ -124,7 +124,12 @@ namespace Patches
             if (_stricmp(dll, targetDll) != 0) continue;
 
             auto* thunk = (IMAGE_THUNK_DATA*)((uintptr_t)base + desc->FirstThunk);
-            auto* orig = (IMAGE_THUNK_DATA*)((uintptr_t)base + desc->OriginalFirstThunk);
+
+            // some binaries null out OriginalFirstThunk; fall back to FirstThunk
+            DWORD nameThunkRva = desc->OriginalFirstThunk
+                ? desc->OriginalFirstThunk
+                : desc->FirstThunk;
+            auto* orig = (IMAGE_THUNK_DATA*)((uintptr_t)base + nameThunkRva);
 
             for (; thunk->u1.Function; thunk++, orig++)
             {

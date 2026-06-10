@@ -22,10 +22,10 @@
 
 namespace SH3Addr
 {
-	// Camera / Projection values
-	constexpr uintptr_t CameraProjection = 0x00416330; // float
-	constexpr uintptr_t CameraProjectionH = 0x00742AB4; // float - horizontal
-	constexpr uintptr_t CameraProjectionV = 0x00742AB8; // float - vertical
+    // Camera / Projection values
+    constexpr uintptr_t CameraProjection = 0x00416330; // float
+    constexpr uintptr_t CameraProjectionH = 0x00742AB4; // float - horizontal
+    constexpr uintptr_t CameraProjectionV = 0x00742AB8; // float - vertical
 
     // Aspect ratio and render distances
     constexpr uintptr_t ScreenRatioH = 0x00743BC8; // float

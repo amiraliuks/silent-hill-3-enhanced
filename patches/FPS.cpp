@@ -23,23 +23,20 @@
 
 namespace Patches
 {
-    static uint32_t g_fpsDesierd = 60;
+    static uint32_t g_fpsDesired = 60;
 
     // Known addresses (all verified in x32dbg)
-    static const uintptr_t ADDR_TIMER_INIT = 0x0041B270; // timer init func
     static const uintptr_t ADDR_SYNC_CALL = 0x0041992D; // 5-byte sync call
     static const uintptr_t ADDR_BEFORE_SCENE = 0x0041B5F0; // BeginScene sync hook
-    static const uintptr_t ADDR_EVENT_RATE = 0x005F1A73; // event rate scaler
-    static const uintptr_t ADDR_SLOWDOWN = 0x005F15E0; // slowdown coeff
+    static const uintptr_t ADDR_SLOWDOWN = 0x005F15E0; // slowdown fn entry (also hosts event-rate scaling)
 
     // Game data addresses
-    static const uintptr_t ADDR_REFRESH_RATE = 0x0072C790; // monitor refresh rate
-    static const uintptr_t ADDR_RENDERTIME = 0x0070E67AC; // gRendertimeScaled
-    static const uintptr_t ADDR_FPS_SCALED = 0x0070E67C4; // gFPSScaled
-    static const uintptr_t ADDR_EVENT_INT = 0x0070E67C0; // event rate int
-    static const uintptr_t ADDR_EVENT_FLOAT = 0x0070E67A8; // event rate float
+    static const uintptr_t ADDR_RENDERTIME = 0x070E67AC; // gRendertimeScaled
+    static const uintptr_t ADDR_FPS_SCALED = 0x070E67C4; // gFPSScaled
+    static const uintptr_t ADDR_EVENT_INT = 0x070E67C0; // event rate int
+    static const uintptr_t ADDR_EVENT_FLOAT = 0x070E67A8; // event rate float
 
-	// High resolution timer, falls back to timeGetTime if QPC isn't available
+    // High resolution timer, falls back to timeGetTime if QPC isn't available
     static LARGE_INTEGER g_perfFreq;
     static LARGE_INTEGER g_perfStart;
     static bool          g_usePerfCounter = false;
@@ -69,21 +66,13 @@ namespace Patches
         prev = now;
     }
 
-    // Replaces the game's timer init at 0x41B270
-    // Reads monitor refresh rate from 0x72C790 if the game already grabbed it
-    static int __cdecl Hook_TimerInit()
+    // QPC timer setup. Used to hook the game's timer init at 0x41B270 for this,
+    // but that clobbered the original and forced the target to the refresh rate.
+    static void InitTimer()
     {
         g_usePerfCounter = QueryPerformanceFrequency(&g_perfFreq) != 0;
         if (g_usePerfCounter)
             QueryPerformanceCounter(&g_perfStart);
-
-        // Try to use monitor refresh rate
-        uint32_t refreshRate = *reinterpret_cast<uint32_t*>(ADDR_REFRESH_RATE);
-        if (refreshRate > 0 && refreshRate <= 360)
-            g_fpsDesierd = refreshRate;
-
-        LOG("FPS: Timer init hooked, target FPS = %u", g_fpsDesierd);
-        return 0;
     }
 
     // Runs before every BeginScene, this is where we do the actual frame pacing
@@ -94,6 +83,10 @@ namespace Patches
     static void __cdecl Hook_SyncBeforeScene()
     {
         UpdateTdiff();
+
+        // Unlocked: don't cap (also avoids the divide-by-zero below)
+        if (g_fpsDesired == 0)
+            return;
 
         static uint32_t nmsRem = 0;
         static uint32_t prevTime = 0;
@@ -107,8 +100,8 @@ namespace Patches
         while (!sleepCount)
         {
             // Advance target time by one frame interval
-            prevTime += (nmsRem + 1000) / g_fpsDesierd;
-            nmsRem = (nmsRem + 1000) % g_fpsDesierd;
+            prevTime += (nmsRem + 1000) / g_fpsDesired;
+            nmsRem = (nmsRem + 1000) % g_fpsDesired;
 
             if (prevTime > tstart)
                 sleepCount++;
@@ -125,14 +118,15 @@ namespace Patches
         }
     }
 
-    // Without this the game logic runs at double speed at 60fps
-    // scales the event rate values the engine reads every frame
-    // 17.0f is ~1000ms/60fps, keeps movement/physics correct
-    static void __cdecl Hook_ScaleEventRate()
+    // Hooked at the slowdown fn entry. Kills the game's slowdown logic and
+    // rescales the event-rate globals each frame, else logic runs ~2x at 60fps.
+    // 17.0f is ~1000ms/60fps. (Scaling was a separate hook at 0x5F1A73, but
+    // that's mid-function not an entry, so it crashed.)
+    static void __cdecl Hook_FrameTiming()
     {
         float rate = 1.0f;
 
-        // Only scale if frame took longer than ~20fps threshold
+        // Only scale if the frame took longer than ~20ms (i.e. below 50fps)
         if (g_tdiff > 1000 / 50)
             rate = (float)g_tdiff / 17.0f;
 
@@ -141,9 +135,6 @@ namespace Patches
         *reinterpret_cast<float*>   (ADDR_RENDERTIME) = rate * 0.016666666f;
         *reinterpret_cast<float*>   (ADDR_FPS_SCALED) = 60.0f / rate;
     }
-
-    // Disable original slowdown coefficient logic
-    static void __cdecl Hook_Slowdown() {}
 
     // Install a function replacement hook using MinHook
     static bool HookFunction(uintptr_t target, void* hook, const char* name)
@@ -172,13 +163,21 @@ namespace Patches
             return;
         }
 
-        // Set target FPS
+        // 60 is the only rate the scaling is tuned for; mode 2 leaves it uncapped
         if (mode == 1)
-            g_fpsDesierd = 60;
+            g_fpsDesired = 60;
         else if (mode == 2)
-            g_fpsDesierd = 0; // unlocked — Hook_SyncBeforeScene won't limit
+            g_fpsDesired = 0; // unlocked — Hook_SyncBeforeScene won't cap
+        else
+        {
+            LOG("FPS: Unknown mode %d, original framerate unchanged", mode);
+            return;
+        }
 
-        LOG("FPS: Applying mode %d (target: %u fps)...", mode, g_fpsDesierd);
+        LOG("FPS: Applying mode %d (target: %u fps)...", mode, g_fpsDesired);
+
+        // Init our timer before any hook uses it
+        InitTimer();
 
         // Init MinHook
         if (MH_Initialize() != MH_OK)
@@ -187,22 +186,16 @@ namespace Patches
             return;
         }
 
-        // 1. Hook timer init — sets up our high-res timer
-        HookFunction(ADDR_TIMER_INIT, (void*)Hook_TimerInit, "TimerInit");
-
-        // 2. NOP the original 5-byte sync call at 0x41992D
+        // 1. NOP the original 5-byte sync call at 0x41992D
         //    This disables the game's built-in frame pacing
         Memory::NOP(ADDR_SYNC_CALL, 5);
         LOG("FPS: NOPed sync call at 0x%08X", ADDR_SYNC_CALL);
 
-        // 3. Hook BeginScene sync — our frame pacer runs here
+        // 2. Hook BeginScene sync — our frame pacer runs here
         HookFunction(ADDR_BEFORE_SCENE, (void*)Hook_SyncBeforeScene, "SyncBeforeScene");
 
-        // 4. Hook event rate scaler — fixes game speed at 60fps
-        HookFunction(ADDR_EVENT_RATE, (void*)Hook_ScaleEventRate, "ScaleEventRate");
-
-        // 5. Replace slowdown coefficient with empty function
-        HookFunction(ADDR_SLOWDOWN, (void*)Hook_Slowdown, "Slowdown");
+        // 3. Replace slowdown fn entry — disables slowdown + does event-rate scaling
+        HookFunction(ADDR_SLOWDOWN, (void*)Hook_FrameTiming, "FrameTiming");
 
         LOG("FPS: All hooks installed");
     }

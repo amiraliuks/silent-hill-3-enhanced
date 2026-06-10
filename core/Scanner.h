@@ -27,7 +27,11 @@ namespace Scanner
     {
         size_t patternLength = strlen(mask);
 
-        for (size_t i = 0; i < size - patternLength; i++)
+        // avoid unsigned underflow when the range is smaller than the pattern
+        if (size < patternLength)
+            return 0;
+
+        for (size_t i = 0; i <= size - patternLength; i++)
         {
             bool found = true;
             for (size_t j = 0; j < patternLength; j++)
