@@ -1,0 +1,92 @@
+.entry-page
+{
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  overflow: hidden;
+  background: #090807;
+}
+
+.trailer-backdrop
+{
+  position: absolute;
+  z-index: -3;
+  inset: 0;
+  overflow: hidden;
+  background: #090807;
+}
+
+.trailer-backdrop::before
+{
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: url("assets/sh3_banner.png") 67% center / cover no-repeat;
+  content: "";
+  opacity: .52;
+  pointer-events: none;
+}
+
+.trailer-backdrop iframe
+{
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: max(100vw, 133.333svh);
+  height: max(75vw, 100svh);
+  transform: translate(-50%, -50%);
+  border: 0;
+  opacity: .42;
+  filter: saturate(.7) contrast(1.05);
+  pointer-events: none;
+}
+
+.trailer-shade
+{
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background: linear-gradient(180deg, #08070658 0%, #0a08078c 55%, #090807e0 100%);
+  pointer-events: none;
+}
+
+.entry-content
+{
+  width: min(920px, calc(100% - 48px));
+  margin: auto;
+  padding: 60px 0 70px;
+  text-align: center;
+}
+
+.project-mark { margin: 0 auto 20px; }
+.project-mark img
+{
+  display: block;
+  width: min(760px, 84vw);
+  height: auto;
+  margin: auto;
+  mix-blend-mode: screen;
+}
+
+.entry-summary
+{
+  max-width: 680px;
+  margin: 0 auto;
+  color: #d0c7bb;
+  font: 16px/1.65 Tahoma, Arial, sans-serif;
+}
+
+.entry-summary i { color: #eee2d1; }
+:focus-visible { outline: 2px solid #c2775d; outline-offset: 4px; }
+@media (max-width: 700px)
+{
+  .entry-content { width: calc(100% - 32px); padding: 42px 0 54px; }
+  .project-mark { margin-bottom: 14px; }
+  .project-mark img { width: min(620px, 90vw); }
+  .entry-summary { font-size: 14px; }
+  .trailer-backdrop::before { background-position: 66% center; opacity: .58; }
+  .trailer-backdrop iframe { opacity: .3; }
+}

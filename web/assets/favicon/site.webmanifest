@@ -1,0 +1,19 @@
+{
+  "name": "Silent Hill 3 Enhanced",
+  "short_name": "SH3 Enhanced",
+  "icons": [
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0b0908",
+  "background_color": "#0b0908",
+  "display": "standalone"
+}
