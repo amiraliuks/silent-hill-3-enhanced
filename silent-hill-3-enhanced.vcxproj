@@ -9,185 +9,171 @@
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
+
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{e8dd97ad-9756-4162-84cc-5864b3e62944}</ProjectGuid>
-    <RootNamespace>silenthill3enhanced</RootNamespace>
+    <RootNamespace>SH3Enhanced</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
+
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v145</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
+
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
+
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
+            Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
+            Label="LocalAppDataPlatform" />
   </ImportGroup>
+
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
+            Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
+            Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
+
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+
+  <PropertyGroup>
     <TargetName>SH3Enhanced</TargetName>
     <TargetExt>.asi</TargetExt>
+    <OutDir>$(ProjectDir)build\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)build\obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>SH3Enhanced</TargetName>
-    <TargetExt>.asi</TargetExt>
-  </PropertyGroup>
+
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;SILENTHILL3ENHANCED_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)third_party\discord-game-sdk\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
-      <OutputFile>$(OutDir)SH3Enhanced.asi</OutputFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)third_party\discord-game-sdk\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Dbghelp.lib;Ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;SILENTHILL3ENHANCED_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)third_party\discord-game-sdk\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
-      <OutputFile>$(OutDir)SH3Enhanced.asi</OutputFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)third_party\discord-game-sdk\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Dbghelp.lib;Ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;SILENTHILL3ENHANCED_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;SILENTHILL3ENHANCED_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
-    </Link>
-  </ItemDefinitionGroup>
+
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="patches\FPS.cpp" />
-    <ClCompile Include="patches\Registry.cpp" />
-    <ClCompile Include="patches\Safemode.cpp" />
-    <ClCompile Include="thirdparty\minhook\src\buffer.c" />
-    <ClCompile Include="thirdparty\minhook\src\hde\hde32.c" />
-    <ClCompile Include="thirdparty\minhook\src\hde\hde64.c" />
-    <ClCompile Include="thirdparty\minhook\src\hook.c" />
-    <ClCompile Include="thirdparty\minhook\src\trampoline.c" />
+    <ResourceCompile Include="controller_prompts.rc" />
   </ItemGroup>
+
   <ItemGroup>
-    <ClInclude Include="core\Addresses.h" />
-    <ClInclude Include="core\Config.h" />
-    <ClInclude Include="core\Log.h" />
-    <ClInclude Include="core\Memory.h" />
-    <ClInclude Include="core\Scanner.h" />
-    <ClInclude Include="patches\FPS.h" />
-    <ClInclude Include="patches\DispIni.h" />
-    <ClInclude Include="patches\Registry.h" />
-    <ClInclude Include="patches\Safemode.h" />
-    <ClInclude Include="thirdparty\minhook\include\MinHook.h" />
-    <ClInclude Include="thirdparty\minhook\src\buffer.h" />
-    <ClInclude Include="thirdparty\minhook\src\hde\hde32.h" />
-    <ClInclude Include="thirdparty\minhook\src\hde\hde64.h" />
-    <ClInclude Include="thirdparty\minhook\src\hde\pstdint.h" />
-    <ClInclude Include="thirdparty\minhook\src\hde\table32.h" />
-    <ClInclude Include="thirdparty\minhook\src\hde\table64.h" />
-    <ClInclude Include="thirdparty\minhook\src\trampoline.h" />
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\logger.cpp" />
+    <ClCompile Include="src\config.cpp" />
+    <ClCompile Include="src\discord_presence.cpp" />
+    <ClCompile Include="src\game_state.cpp" />
+    <ClCompile Include="src\free_camera.cpp" />
+    <ClCompile Include="src\pattern.cpp" />
+    <ClCompile Include="src\screen_state.cpp" />
+    <ClCompile Include="src\patches\options_menu_freeze.cpp" />
+    <ClCompile Include="src\patches\safe_mode.cpp" />
+    <ClCompile Include="src\patches\resolution.cpp" />
+    <ClCompile Include="src\patches\widescreen.cpp" />
+    <ClCompile Include="src\patches\cutscene_borders.cpp" />
+    <ClCompile Include="src\patches\pause_menu.cpp" />
+    <ClCompile Include="src\patches\dof_resolution.cpp" />
+    <ClCompile Include="src\patches\shadow_resolution.cpp" />
+    <ClCompile Include="src\patches\inventory_resolution.cpp" />
+    <ClCompile Include="src\patches\status_screen_resolution.cpp" />
+    <ClCompile Include="src\patches\fog_control.cpp" />
+    <ClCompile Include="src\patches\frame_rate.cpp" />
+    <ClCompile Include="src\patches\mirror_room.cpp" />
+    <ClCompile Include="src\patches\content_text.cpp" />
+    <ClCompile Include="src\patches\unlock_sh2_easter_eggs.cpp" />
+    <ClCompile Include="src\patches\registry_redirect.cpp" />
+    <ClCompile Include="src\patches\window_mode.cpp" />
+    <ClCompile Include="src\patches\white_border.cpp" />
+    <ClCompile Include="src\patches\cpu_affinity.cpp" />
+    <ClCompile Include="src\patches\exception_handler.cpp" />
+    <ClCompile Include="src\patches\muted_audio.cpp" />
+    <ClCompile Include="src\patches\anisotropic_filtering.cpp" />
+    <ClCompile Include="src\patches\msaa_dof.cpp" />
+    <ClCompile Include="src\patches\controller_button_icons.cpp" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include=".gitattributes" />
-    <None Include=".gitignore" />
-    <None Include="docs\DATABASE.md" />
-    <None Include="docs\FINDINGS.md" />
-    <None Include="README.md" />
-    <None Include="SH3Enhanced.ini" />
-    <None Include="silent-hill-3-enhanced.slnx" />
+    <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\logger.h" />
+    <ClInclude Include="src\pattern.h" />
+    <ClInclude Include="src\screen_state.h" />
+    <ClInclude Include="src\discord_presence.h" />
+    <ClInclude Include="src\game_state.h" />
+    <ClInclude Include="src\free_camera.h" />
+    <ClInclude Include="src\patches\patches.h" />
+    <ClInclude Include="src\patches\patch_utils.h" />
+    <ClInclude Include="src\patches\muted_audio.h" />
+    <ClInclude Include="src\resources\resource_ids.h" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="SH3Enhanced.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="CopyDiscordGameSdk" AfterTargets="Build">
+    <Copy SourceFiles="$(ProjectDir)third_party\discord-game-sdk\bin\x86\discord_game_sdk.dll"
+          DestinationFolder="$(OutDir)"
+          SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="CopyXidiRuntime" AfterTargets="Build">
+    <Copy SourceFiles="$(ProjectDir)third_party\xidi\bin\x86\Xidi.32.dll"
+          DestinationFolder="$(OutDir)"
+          SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(ProjectDir)third_party\xidi\LICENSE"
+          DestinationFiles="$(OutDir)Xidi-LICENSE.txt"
+          SkipUnchangedFiles="true" />
+  </Target>
+
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
