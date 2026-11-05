@@ -1,3 +1,6 @@
+!thirdparty/
+!thirdparty/**
+
 # Prerequisites
 *.d
 
