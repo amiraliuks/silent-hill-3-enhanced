@@ -1,6 +1,3 @@
-!thirdparty/
-!thirdparty/**
-
 # Prerequisites
 *.d
 
@@ -61,3 +58,6 @@ ipch/
 # OS
 Thumbs.db
 desktop.ini
+
+!thirdparty/
+!thirdparty/**
