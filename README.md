@@ -157,10 +157,6 @@ The Discord Rich Presence implementation uses the 32-bit Game SDK and reports th
 
 [**Kenney**](https://kenney.nl/) - The controller button, stick, and d-pad icons use CC0 artwork from the [Input Prompts](https://kenney.nl/assets/input-prompts) pack.
 
-### Project reference
-
-[**Silent Hill 2: Enhanced Edition**](https://enhanced.townofsilenthill.com/SH2/) - Its project structure informed how SH3 Enhanced is organized, and its Configuration Tool was the main inspiration for the SH3 Enhanced Configuration Tool's interface design.
-
 ## Disclaimer
 
 This project is unofficial and is not affiliated with or endorsed by Konami. It contains no game data, music, video, or other Silent Hill 3 assets. You must provide your own copy of the game.
