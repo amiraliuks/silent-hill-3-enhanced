@@ -1,3 +1,21 @@
+<!--
+
+  __  .___________.    _______.                         
+  |  | |           |   /       |                         
+  |  | `---|  |----`  |   (----`                         
+  |  |     |  |        \   \                             
+  |  |     |  |    .----)   |                            
+  |__|     |__|    |_______/                             
+                                                        
+  .______   .______       _______     ___       _______  
+  |   _  \  |   _  \     |   ____|   /   \     |       \ 
+  |  |_)  | |  |_)  |    |  |__     /  ^  \    |  .--.  |
+  |   _  <  |      /     |   __|   /  /_\  \   |  |  |  |
+  |  |_)  | |  |\  \----.|  |____ /  _____  \  |  '--'  |
+  |______/  | _| `._____||_______/__/     \__\ |_______/ 
+
+-->
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,6 +29,9 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
   <link rel="manifest" href="assets/favicon/site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&family=Roboto+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="home.css">
 </head>
@@ -19,65 +40,67 @@
   <main id="top">
     <section class="entry-page" id="project" aria-labelledby="page-title">
       <div class="trailer-backdrop" aria-hidden="true">
-        <iframe src="https://www.youtube.com/embed/awRGDU6w8_I?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=awRGDU6w8_I&amp;controls=0&amp;modestbranding=1&amp;playsinline=1&amp;rel=0&amp;iv_load_policy=3&amp;disablekb=1" title="Silent Hill 3 video background" tabindex="-1" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <iframe src="https://www.youtube.com/embed/awRGDU6w8_I?start=3&amp;autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=awRGDU6w8_I&amp;controls=0&amp;modestbranding=1&amp;playsinline=1&amp;rel=0&amp;iv_load_policy=3&amp;disablekb=1" title="Silent Hill 3 video background" tabindex="-1" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
       </div>
       <div class="trailer-shade" aria-hidden="true"></div>
       <div class="entry-content">
         <h1 id="page-title" class="project-mark"><img src="assets/sh3_enhanced_logo.png" alt="Silent Hill 3 Enhanced"></h1>
-        <p class="entry-summary">A runtime patch for the original Windows PC release of <i>Silent Hill 3</i>, adding widescreen, resolution, frame-rate, and stability fixes.</p>
+        <p class="entry-summary">SH3 Enhanced is a project that makes the PC version of <i>Silent Hill 3</i> run properly on modern systems, with widescreen, 60 FPS, controller support, and fixes for long-standing bugs.</p>
       </div>
     </section>
 
     <section class="feature-section" id="features"><div class="section-wrap">
-      <div class="section-heading"><div><h2>Features</h2></div><p class="feature-legend"><span>✓</span> implemented <span>○</span> planned</p></div>
+      <div class="section-heading"><div><h2>What the patch does</h2></div></div>
       <div class="feature-columns">
         <div class="feature-column">
           <section class="feature-group"><h3>Graphics</h3><ul class="feature-items">
             <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Widescreen Fix:</strong> Corrects FOV and aspect ratio for modern displays.</span></li>
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Custom Resolution:</strong> Sets output and internal render resolutions in <code>SH3Enhanced.ini</code>.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Custom Resolutions:</strong> Sets the output size and internal render-target size independently.</span></li>
             <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Remove Black Bars:</strong> Removes the gameplay side bars.</span></li>
             <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Remove Cutscene Borders:</strong> Removes borders added during in-engine cutscenes.</span></li>
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>4:3 2D Elements:</strong> Keeps supported menus and interface elements at 4:3 on widescreen displays.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Fullscreen Pause Menu:</strong> Stretches the pause menu to fill the screen.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>4:3 2D Elements:</strong> Keeps supported menus and interface elements in a 4:3 area on widescreen displays.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Fullscreen Pause Menu:</strong> Expands the pause menu to widescreen independently of the 4:3 2D Elements setting.</span></li>
             <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>FMV Fix:</strong> Displays videos at 4:3 or crops them to fill widescreen; also supports 16:9 video sources.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>DoF Resolution:</strong> Increases depth-of-field render resolution.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Shadow Resolution:</strong> Increases shadow-map resolution.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Inventory Resolution:</strong> Increases inventory background resolution.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Status Screen Resolution:</strong> Increases status-screen resolution.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Anisotropic Texture Filtering:</strong> Enables the highest supported AF level.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Fog Control:</strong> Adjusts fog complexity.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Motion Trail Fix:</strong> Corrects dark trails caused by bloom on light sources.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Animated Wall Texture Fix:</strong> Corrects animated textures when using d3d8to9.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>DoF Resolution:</strong> Sets the depth-of-field and otherworld-corrosion target resolution.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Shadow Resolution:</strong> Sets the dynamic shadow-map resolution.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Status Screen Resolution:</strong> Increases the status-screen image resolution.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Anisotropic Texture Filtering:</strong> Uses the highest anisotropy level supported by the device.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Fog Control:</strong> Adjusts fog detail with a configurable coefficient.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Experimental Pause-Menu Geometry:</strong> Adjusts one pause-menu quad's horizontal bounds. It does not increase texture resolution and may show a translucent rectangle in the Status preview.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>MSAA / DoF Compatibility:</strong> Stops multisample anti-aliasing requests that can corrupt depth of field. FXAA is not included.</span></li>
           </ul></section>
-          <section class="feature-group"><h3>Audio</h3><ul class="feature-items">
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Restore Missing Dialogue:</strong> Restores dialogue audio removed from the PC release.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">✘</span><span><strong>Restore Beta Sounds:</strong> Optionally restores cut beta sound effects.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Audio Pulse Fix:</strong> Replaces PulseEvent audio synchronization.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Muted Audio Fix:</strong> Corrects audio muting after crashes during the TV or Lisa scene.</span></li>
+          <section class="feature-group"><h3>Content / Text</h3><ul class="feature-items">
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>"Wish House" Fix:</strong> Changes English instances of "Hope House" to "Wish House".</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Typo Fixes:</strong> Corrects the subway ladder message, the apartment save-point text, the apartment entrance sign, and a hospital memo.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Missing Sewer Text:</strong> Restores Heather's missing English comments at the sewer wine rack.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Unlock SH2 Easter Eggs:</strong> Unlocks four Silent Hill 2 save-data references without a cleared SH2 save.</span></li>
           </ul></section>
         </div>
         <div class="feature-column">
           <section class="feature-group"><h3>Performance / Framerate</h3><ul class="feature-items">
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>60 FPS Mode:</strong> Stable 60 FPS timing; confirmed in-game.</span></li>
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Multiple FPS Modes:</strong> Supports 30 FPS, 60 FPS, and unlocked modes; 30 FPS and unlocked modes still need broader gameplay checks.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Mirror Room Fix:</strong> Forces 30 FPS in the hospital storeroom where effects require it.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>MSAA / DoF Fix:</strong> Disables MSAA that corrupts depth of field and recommends FXAA.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>60 FPS Timing:</strong> Provides stable game timing at 60 FPS.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Frame-Rate Modes:</strong> Lets you choose 30 FPS, 60 FPS, or unlocked timing.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Mirror Room Fix:</strong> In 60 FPS mode, caps the hospital storeroom at 30 FPS and restores 60 FPS when you leave.</span></li>
           </ul></section>
           <section class="feature-group"><h3>System / Stability</h3><ul class="feature-items">
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Registry Redirect:</strong> Redirects SH3 install-path reads from HKLM to HKCU and fills missing paths per-user.</span></li>
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Safe Mode Disable:</strong> Prevents the game from reverting graphics settings after an abnormal exit.</span></li>
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Options Menu Freeze Fix:</strong> Fixes the game hanging in the Options menu.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>CPU Affinity Fix:</strong> Configures CPU core affinity to reduce frame-rate fluctuation.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Windowed / Borderless Mode:</strong> Runs the game in a window or borderless fullscreen.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>White Border Fix:</strong> Corrects white borders on Windows 10/11.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>d3d8to9:</strong> Converts DirectX 8 to DirectX 9 for compatibility and performance.</span></li>
-            <li class="planned"><span class="feature-mark" aria-label="Planned">○</span><span><strong>Exception Handler:</strong> Writes minidump files after a crash.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Registry Redirect:</strong> Redirects SH3's install-path reads from HKLM to HKCU and points the per-user paths to the folder containing the running game.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Safe Mode Disable:</strong> Stops SH3's safe mode from resetting graphics settings after an abnormal exit.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Options Menu Freeze Fix:</strong> Fixes a hang when opening the Options menu.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>CPU Affinity:</strong> Optionally selects logical processors for the game process.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Windowed / Borderless Mode:</strong> Runs the game in a resizable window or borderless fullscreen.</span></li>
+            <li class="complete"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>White Border Fix:</strong> Removes the bright extended window edge on Windows 10/11.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Exception Handler:</strong> Writes a timestamped minidump after an unhandled crash.</span></li>
           </ul></section>
-          <section class="feature-group"><h3>Content / Text</h3><ul class="feature-items">
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>“Wish House” Fix:</strong> Changes English instances of “Hope House” to “Wish House”.</span></li>
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Typo Fixes:</strong> Corrects typos in the subway, apartments, and hospital.</span></li>
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Missing Sewer Text:</strong> Restores untranslated text in the sewer level.</span></li>
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Unlock SH2 Easter Eggs:</strong> Unlocks Silent Hill 2 references without completing the game.</span></li>
+          <section class="feature-group"><h3>Audio</h3><ul class="feature-items">
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Muted Audio Recovery:</strong> Clears a persisted Windows audio-session mute when the game starts.</span></li>
+          </ul></section>
+          <section class="feature-group"><h3>Tools / Presence</h3><ul class="feature-items">
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Discord Rich Presence:</strong> Shows the current area and Heather's health when available.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Configuration Tool:</strong> Edits patch settings and can save them beside the selected game executable.</span></li>
+          </ul></section>
+          <section class="feature-group"><h3>Controls / UI</h3><ul class="feature-items">
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>XInput Controller Support:</strong> The bundled 32-bit Xidi bridge lets the game's DirectInput 8 input path use XInput controllers.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Controller Button Prompts:</strong> Offers Generic, Xbox, PlayStation, or Nintendo prompt styles.</span></li>
           </ul></section>
         </div>
       </div>
@@ -85,77 +108,133 @@
 
     <section class="compare-section section-wrap" id="comparisons">
       <div class="section-heading"><div><h2>Visual comparisons</h2></div></div>
-      <div class="comparison-tabs" role="tablist" aria-label="Choose a comparison">
-        <button id="tab-widescreen" type="button" role="tab" aria-selected="true" aria-controls="panel-widescreen">Widescreen &amp; Bars</button>
-        <button id="tab-borders" type="button" role="tab" aria-selected="false" aria-controls="panel-borders" tabindex="-1">Cutscene Borders</button>
-        <button id="tab-resolution" type="button" role="tab" aria-selected="false" aria-controls="panel-resolution" tabindex="-1">Custom Resolution</button>
-      </div>
-
-      <article class="comparison comparison-panel" id="panel-widescreen" role="tabpanel" aria-labelledby="tab-widescreen" style="--split:50%">
-        <div class="comparison-meta"><h3>Widescreen camera</h3></div>
-        <p class="compare-caption">The game keeps its original 4:3 camera view when the widescreen fix is off. Turn it on to widen the camera and remove the gameplay side bars.</p>
-        <div class="compare-frame widescreen-frame">
-          <div class="compare-view view-off"><img src="assets/sh3_pc_scene.png" alt="Silent Hill 3 PC screenshot used as a widescreen framing reference"></div>
-          <div class="compare-view view-on"><img src="assets/sh3_pc_scene.png" alt="Same Silent Hill 3 scene shown in a wider frame"></div>
-          <span class="state-label label-off">4:3 FIX OFF</span><span class="state-label label-on">16:9 FIX ON</span>
-          <div class="split-line" aria-hidden="true"><span>↔</span></div>
-          <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare 4:3 fix off with 16:9 fix on">
+      <div class="comparison-set-title">ORIGINAL PC <span>VS</span> SH3 ENHANCED</div>
+      <div class="comparison-carousel" role="region" aria-roledescription="carousel" aria-label="Silent Hill 3 Enhanced visual comparisons">
+        <button class="comparison-arrow comparison-previous" type="button" aria-label="Previous comparison"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12 3-7 7 7 7"/></svg></button>
+        <div class="comparison-slides" aria-live="polite">
+          <article class="comparison comparison-slide widescreen-camera-comparison" data-comparison-slide data-comparison-name="Widescreen camera" style="--split:50%">
+            <div class="comparison-meta"><h3>Widescreen camera</h3><p class="compare-caption">Original PC at 4:3 beside SH3 Enhanced at 16:9, captured in the same bathroom scene.</p></div>
+            <div class="compare-frame">
+              <div class="compare-view view-off"><img src="assets/visual-comparisons/4x3-gameplay.webp" alt="Silent Hill 3 original PC gameplay at 4:3 in the bathroom" loading="lazy" decoding="async"></div><div class="compare-view view-on"><img src="assets/visual-comparisons/16x9-gameplay.png" alt="Silent Hill 3 Enhanced gameplay at 16:9 in the same bathroom scene" loading="lazy" decoding="async"></div>
+              <span class="state-label label-off">4:3 FIX OFF</span><span class="state-label label-on">16:9 FIX ON</span><div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare 4:3 fix off with 16:9 fix on">
+            </div>
+          </article>
+          <article class="comparison comparison-slide" data-comparison-slide data-comparison-name="Cutscene borders" style="--split:50%" hidden>
+            <div class="comparison-meta"><h3>Cutscene borders</h3><p class="compare-caption">Original borders versus <code>RemoveCutsceneBorders=true</code>. The matching screenshots are in place.</p></div>
+            <div class="compare-frame placeholder-frame">
+              <div class="compare-view view-off"><img src="assets/visual-comparisons/cutscene-borders.png" alt="Silent Hill 3 in-engine cutscene with borders" loading="lazy" decoding="async"></div><div class="compare-view view-on"><img src="assets/visual-comparisons/no-cutscene-borders.png" alt="Silent Hill 3 in-engine cutscene with borders removed" loading="lazy" decoding="async"></div>
+              <span class="state-label label-off">BORDERS ON</span><span class="state-label label-on">BORDERS OFF</span><div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare cutscene borders on and off">
+            </div>
+          </article>
+          <article class="comparison comparison-slide" data-comparison-slide data-comparison-name="Window display mode" style="--split:50%" hidden>
+            <div class="comparison-meta"><h3>Window display mode</h3><p class="compare-caption">Compare fullscreen (<code>WindowMode=0</code>) with windowed mode (<code>WindowMode=1</code>).</p></div>
+            <div class="compare-frame">
+              <div class="compare-view view-off"><img src="assets/visual-comparisons/full-screen.png" alt="Silent Hill 3 running in fullscreen mode" loading="lazy" decoding="async"></div><div class="compare-view view-on"><img src="assets/visual-comparisons/windowed-mode.png" alt="Silent Hill 3 running in a window" loading="lazy" decoding="async"></div>
+              <span class="state-label label-off">FULLSCREEN</span><span class="state-label label-on">WINDOWED</span><div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare fullscreen with windowed display mode">
+            </div>
+          </article>
+          <article class="comparison comparison-slide" data-comparison-slide data-comparison-name="Controller button prompts" style="--split:50%" hidden>
+            <div class="comparison-meta"><h3>Controller button prompts</h3><p class="compare-caption">Compare the default button labels with PlayStation icons using <code>ReplaceButtonText=3</code>.</p></div>
+            <div class="compare-frame">
+              <div class="compare-view view-off"><img src="assets/visual-comparisons/default-button-config.png" alt="Silent Hill 3 control configuration with default button labels" loading="lazy" decoding="async"></div><div class="compare-view view-on"><img src="assets/visual-comparisons/playstation-button-config.png" alt="Silent Hill 3 control configuration with PlayStation button icons" loading="lazy" decoding="async"></div>
+              <span class="state-label label-off">DEFAULT LABELS</span><span class="state-label label-on">PLAYSTATION ICONS</span><div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare default button labels with PlayStation icons">
+            </div>
+          </article>
+          <article class="comparison comparison-slide" data-comparison-slide data-comparison-name="Fullscreen pause menu" style="--split:50%" hidden>
+            <div class="comparison-meta"><h3>Fullscreen pause menu</h3><p class="compare-caption">Compare <code>FullscreenPauseMenu=false</code> and <code>true</code>; keep <code>Keep2DElementsAt4x3=true</code> for both captures.</p></div>
+            <div class="compare-frame placeholder-frame">
+              <div class="compare-view view-off"><img src="assets/visual-comparisons/widescreen-pause-menu-4x3.png" alt="Silent Hill 3 pause menu in its original 4:3 layout" loading="lazy" decoding="async"></div><div class="compare-view view-on"><img src="assets/visual-comparisons/widescreen-pause-menu-16x9.png" alt="Silent Hill 3 pause menu with widescreen layout enabled" loading="lazy" decoding="async"></div>
+              <span class="state-label label-off">4:3 MENU</span><span class="state-label label-on">FULLSCREEN MENU</span><div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare original and fullscreen pause menu layouts">
+            </div>
+          </article>
+          <article class="comparison comparison-slide" data-comparison-slide data-comparison-name="4:3 interface framing" style="--split:50%" hidden>
+            <div class="comparison-meta"><h3>4:3 interface framing</h3><p class="compare-caption">Compare <code>Keep2DElementsAt4x3=false</code> and <code>true</code> on a widescreen display. Keep the same pause or inventory screen open.</p></div>
+            <div class="compare-frame placeholder-frame">
+              <div class="compare-view view-off compare-placeholder"><span class="placeholder-copy"><strong>WIDESCREEN ELEMENTS</strong><small>Screenshot slot</small></span></div><div class="compare-view view-on compare-placeholder"><span class="placeholder-copy"><strong>4:3 ELEMENT AREA</strong><small>Screenshot slot</small></span></div>
+              <span class="state-label label-off">4:3 FIX OFF</span><span class="state-label label-on">4:3 FIX ON</span><div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare widescreen interface elements with 4:3 anchored elements">
+            </div>
+          </article>
+          <article class="comparison comparison-slide" data-comparison-slide data-comparison-name="Fog detail" style="--split:50%" hidden>
+            <div class="comparison-meta"><h3>Fog detail</h3><p class="compare-caption">Compare the game's default fog coefficient, <code>FogComplexity=25</code>, with <code>FogComplexity=75</code> in the same scene.</p></div>
+            <div class="compare-frame">
+              <div class="compare-view view-off"><img src="assets/visual-comparisons/fog-complexity-25.png" alt="Silent Hill 3 fog at the default complexity setting of 25" loading="lazy" decoding="async"></div><div class="compare-view view-on"><img src="assets/visual-comparisons/fog-complexity-75.png" alt="Silent Hill 3 fog at complexity 75" loading="lazy" decoding="async"></div>
+              <span class="state-label label-off">FOG COMPLEXITY 25</span><span class="state-label label-on">FOG COMPLEXITY 75</span><div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare fog complexity 25 with 75">
+            </div>
+          </article>
+          <article class="comparison comparison-slide" data-comparison-slide data-comparison-name="Widescreen FMV source" style="--split:50%" hidden>
+            <div class="comparison-meta"><h3>Widescreen FMV source</h3><p class="compare-caption">Compare the original 4:3 movie (<code>FMVWidescreenMode=0</code>) with the 16:9 source (<code>=2</code>) at the same moment.</p></div>
+            <div class="compare-frame">
+              <div class="compare-view view-off"><img src="assets/visual-comparisons/fmv-4x3.png" alt="Silent Hill 3 FMV in its original 4:3 format" loading="lazy" decoding="async"></div><div class="compare-view view-on"><img src="assets/visual-comparisons/fmv-16x9.png" alt="Silent Hill 3 FMV using a 16:9 video source" loading="lazy" decoding="async"></div>
+              <span class="state-label label-off">ORIGINAL VIDEO</span><span class="state-label label-on">16:9 SOURCE</span><div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare original 4:3 FMV with 16:9 source">
+            </div>
+          </article>
+          <article class="comparison comparison-slide" data-comparison-slide data-comparison-name="Depth of field resolution" style="--split:50%" hidden>
+            <div class="comparison-meta"><h3>Depth-of-field resolution</h3><p class="compare-caption">Compare game default (<code>DOFRes=0</code>) with <code>DOFRes=1024</code> in a scene where depth of field is visible.</p></div>
+            <div class="compare-frame">
+              <div class="compare-view view-off"><img src="assets/visual-comparisons/original-dof-resolution.png" alt="Silent Hill 3 with the game's default depth-of-field resolution" loading="lazy" decoding="async"></div><div class="compare-view view-on"><img src="assets/visual-comparisons/dof-resolution-1024.png" alt="Silent Hill 3 with depth-of-field resolution set to 1024" loading="lazy" decoding="async"></div>
+              <span class="state-label label-off">DEFAULT</span><span class="state-label label-on">1024</span><div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare default and 1024 depth-of-field resolution">
+            </div>
+          </article>
+          <article class="comparison comparison-slide status-screen-comparison" data-comparison-slide data-comparison-name="Status screen resolution" style="--split:50%" hidden>
+            <div class="comparison-meta"><h3>Status screen resolution</h3><p class="compare-caption">Compare game default (<code>StatusScreenRes=0</code>) with <code>StatusScreenRes=1024</code> on the same status screen.</p></div>
+            <div class="compare-frame">
+              <div class="compare-view view-off"><img src="assets/visual-comparisons/original-inventory-status.png" alt="Silent Hill 3 inventory and status screen at the game's default resolution" loading="lazy" decoding="async"></div><div class="compare-view view-on"><img src="assets/visual-comparisons/inventory-status-1024.png" alt="Silent Hill 3 inventory and status screen with StatusScreenRes set to 1024" loading="lazy" decoding="async"></div>
+              <span class="state-label label-off">DEFAULT</span><span class="state-label label-on">1024</span><div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare default and 1024 status screen resolution">
+            </div>
+          </article>
         </div>
-      </article>
-
-      <article class="comparison comparison-panel" id="panel-borders" role="tabpanel" aria-labelledby="tab-borders" style="--split:50%" hidden>
-          <div class="comparison-meta"><h3>Cutscene borders</h3></div>
-          <p class="compare-caption">The fix removes borders added to in-engine cutscenes.</p>
-          <div class="compare-frame letterbox-frame">
-            <div class="compare-view view-off letterbox"><img src="assets/bg_amp_carousel_01.jpg" alt="Heather at the carousel, Silent Hill 3 PC gallery capture"></div>
-            <div class="compare-view view-on"><img src="assets/bg_amp_carousel_01.jpg" alt="Same carousel capture shown without letterbox borders"></div>
-            <span class="state-label label-off">BORDERS ON</span><span class="state-label label-on">BORDERS OFF</span>
-            <div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare cutscene borders on and off">
-          </div>
-      </article>
-
-      <article class="comparison comparison-panel" id="panel-resolution" role="tabpanel" aria-labelledby="tab-resolution" style="--split:50%" hidden>
-          <div class="comparison-meta"><h3>Render resolution</h3></div>
-          <p class="compare-caption">Custom Resolution sets the output size and, separately, the game's internal render size.</p>
-          <div class="compare-frame resolution-frame">
-            <div class="compare-view view-off resolution-off"><img src="assets/bg_mlb_hole_01.jpg" alt="Heather in a tiled room, Silent Hill 3 PC gallery capture"></div>
-            <div class="compare-view view-on resolution-on"><img src="assets/bg_mlb_hole_01.jpg" alt="Same capture used for custom render resolution preview"></div>
-            <span class="state-label label-off">GAME DEFAULT</span><span class="state-label label-on">CUSTOM SIZE</span>
-            <div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare game default render size with custom render resolution">
-          </div>
-      </article>
+        <button class="comparison-arrow comparison-next" type="button" aria-label="Next comparison"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 3 7 7-7 7"/></svg></button>
+      </div>
+      <div class="comparison-index" role="group" aria-label="Select a comparison">
+        <span class="comparison-count" aria-hidden="true">01 / 10</span>
+      </div>
     </section>
 
+    <!-- Gallery paused until project screenshots are ready.
     <section class="gallery-section"><div class="section-wrap" id="gallery">
-      <div class="section-heading"><div><h2>Gallery</h2></div></div>
+      <div class="section-heading"><div><h2>Scenes from Silent Hill 3</h2></div></div>
       <div class="game-gallery">
-        <figure><a href="assets/bg_mlb_restaurant_03.jpg" target="_blank" rel="noreferrer"><img src="assets/bg_mlb_restaurant_03.jpg" alt="Heather faces a creature in a dim restaurant"></a></figure>
-        <figure><a href="assets/bg_mlf_bookstore_01.jpg" target="_blank" rel="noreferrer"><img src="assets/bg_mlf_bookstore_01.jpg" alt="Heather outside the My Best Sellers bookstore"></a></figure>
-        <figure><a href="assets/bg_swr_machine_01.jpg" target="_blank" rel="noreferrer"><img src="assets/bg_swr_machine_01.jpg" alt="A rusted machine in a Silent Hill 3 industrial room"></a></figure>
+        <figure><a href="assets/bg_mlb_restaurant_03.jpg" data-lightbox><img src="assets/bg_mlb_restaurant_03.jpg" alt="Heather faces a creature in a dim room"></a></figure>
+        <figure><a href="assets/bg_mlf_bookstore_01.jpg" data-lightbox><img src="assets/bg_mlf_bookstore_01.jpg" alt="Heather in the mall bookstore"></a></figure>
+        <figure><a href="assets/bg_swr_machine_01.jpg" data-lightbox><img src="assets/bg_swr_machine_01.jpg" alt="A rusted machine in an industrial room"></a></figure>
       </div>
     </div></section>
+    -->
 
     <section class="download-section" id="download"><div class="section-wrap download-layout">
-      <div class="section-heading"><div><h2>Download &amp; installation</h2></div></div>
+      <div class="section-heading"><div><h2>Get the patch</h2></div></div>
+      <div class="release-record">
+        <div class="release-record-head">
+          <div class="release-package-title"><p>RELEASE PACKAGE</p><h3>Version 1.0</h3></div>
+          <div class="release-fact"><span>RELEASE DATE</span><strong>To be announced</strong></div>
+          <div class="release-fact"><span>SHA-256</span><strong>Listed with release</strong></div>
+          <a class="hero-cta" href="https://github.com/amiraliuks/silent-hill-3-enhanced/releases" target="_blank" rel="noreferrer">View releases ↗</a>
+        </div>
+      </div>
       <div class="install-steps">
         <article class="install-step">
-          <span class="install-number">01</span>
+          <span class="install-number">1</span>
           <div><h3>Install Silent Hill 3 for Windows</h3>
             <p>You need the original PC game installed first. SH3 Enhanced is a patch; it does not include the game or its files.</p>
           </div>
         </article>
         <article class="install-step">
-          <span class="install-number">02</span>
-          <div><h3>Get SH3 Enhanced</h3>
-            <p>There is no ready-to-use package published yet. When one is available, download it here, extract its files beside <code>sh3.exe</code>, then start the game normally.</p>
-            <a class="hero-cta" href="https://github.com/amiraliuks/silent-hill-3-enhanced/releases" target="_blank" rel="noreferrer">SH3 Enhanced releases ↗</a>
+          <span class="install-number">2</span>
+          <div><h3>Download</h3>
+            <p>Get the latest release from <a href="https://github.com/amiraliuks/silent-hill-3-enhanced/releases" target="_blank" rel="noreferrer">GitHub Releases</a>, then extract its files beside <code>sh3.exe</code>.</p>
+          </div>
+        </article>
+        <article class="install-step">
+          <span class="install-number">3</span>
+          <div><h3>Configure the patch</h3>
+            <p>Use the Configuration Tool to change settings without editing <code>SH3Enhanced.ini</code>. If you prefer, you can edit the INI file yourself.</p>
           </div>
         </article>
       </div>
     </div></section>
 
     <section class="troubleshooting-section" id="troubleshooting"><div class="section-wrap">
-      <div class="section-heading"><div><h2>Troubleshooting</h2></div><p>Common fixes for the Windows PC version.</p></div>
+      <div class="section-heading"><div><h2>Troubleshooting</h2></div></div>
       <div class="troubleshooting-list">
         <article class="faq-item">
           <h3><button class="faq-question" id="faq-q-load" type="button" aria-expanded="false" aria-controls="faq-a-load">The patch doesn't load</button></h3>
@@ -183,7 +262,7 @@
         </article>
         <article class="faq-item">
           <h3><button class="faq-question" id="faq-q-framerate" type="button" aria-expanded="false" aria-controls="faq-a-framerate">Which frame-rate mode should I use?</button></h3>
-          <div class="faq-answer" id="faq-a-framerate" role="region" aria-labelledby="faq-q-framerate" aria-hidden="true" inert><div class="faq-answer-inner"><p>60 FPS is the default and has been confirmed in-game. 30 FPS and unlocked timing modes are available, but still need broader gameplay checks.</p></div></div>
+          <div class="faq-answer" id="faq-a-framerate" role="region" aria-labelledby="faq-q-framerate" aria-hidden="true" inert><div class="faq-answer-inner"><p>60 FPS is the default mode. You can also select 30 FPS or unlocked timing in the Configuration Tool or <code>SH3Enhanced.ini</code>.</p></div></div>
         </article>
         <article class="faq-item">
           <h3><button class="faq-question" id="faq-q-report" type="button" aria-expanded="false" aria-controls="faq-a-report">Where should I report a problem?</button></h3>
@@ -194,17 +273,26 @@
 
     <section class="credits-section" id="credits"><div class="section-wrap">
       <div class="section-heading"><div><h2>Credits</h2></div></div>
-      <div class="project-credit">
-        <span class="credit-person"><a href="https://github.com/amiraliuks" target="_blank" rel="noreferrer">Amir Aliu</a><small>@amiraliuks</small></span>
-        <span class="credit-role">Project creator, developer &amp; maintainer</span>
-      </div>
       <div class="credit-list">
-        <div><span class="credit-person"><a href="https://github.com/ThirteenAG" target="_blank" rel="noreferrer">ThirteenAG</a><small>@ThirteenAG</small></span><span class="credit-role"><a href="https://github.com/ThirteenAG/WidescreenFixesPack" target="_blank" rel="noreferrer">Widescreen fix code</a>, <a href="https://github.com/ThirteenAG/Ultimate-ASI-Loader" target="_blank" rel="noreferrer">Ultimate ASI Loader</a>, and research</span></div>
-        <div><span class="credit-person"><a href="https://github.com/Steam006" target="_blank" rel="noreferrer">Steam006</a><small>@Steam006</small></span><span class="credit-role"><a href="https://community.pcgamingwiki.com/files/file/1331-silent-hill-3-pc-fix-by-steam006/" target="_blank" rel="noreferrer">Silent Hill 3 PC Fix</a> research</span></div>
-        <div><span class="credit-person"><a href="https://github.com/Polymega" target="_blank" rel="noreferrer">Polymega</a><small>@Polymega</small></span><span class="credit-role"><a href="https://github.com/Polymega/SilentHillDatabase" target="_blank" rel="noreferrer">SilentHillDatabase</a> memory-address research</span></div>
-        <div><span class="credit-person"><a href="https://github.com/07151129" target="_blank" rel="noreferrer">07151129</a><small>@07151129</small></span><span class="credit-role"><a href="https://github.com/07151129/sh3proxy" target="_blank" rel="noreferrer">sh3proxy</a> SH2-reference unlock and D3D8 wrapper reference</span></div>
-        <div><span class="credit-person"><a href="https://github.com/Nemesis2000" target="_blank" rel="noreferrer">Nemesis2000</a><small>@Nemesis2000</small></span><span class="credit-role">Original Silent Hill 2 fog-fix technique</span></div>
-        <div><span class="credit-person"><a href="https://github.com/elishacloud" target="_blank" rel="noreferrer">elishacloud</a><small>@elishacloud</small></span><span class="credit-role"><a href="https://enhanced.townofsilenthill.com/SH2/" target="_blank" rel="noreferrer">Silent Hill 2 Enhanced Edition</a> project-structure reference</span></div>
+        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/amiraliuks" target="_blank" rel="noreferrer">Amir Aliu</a><small>@amiraliuks</small></span><p class="credit-role">Created and maintains SH3 Enhanced, including its game patches, configuration tool, and project website.</p></article>
+        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/ThirteenAG" target="_blank" rel="noreferrer">ThirteenAG</a><small>@ThirteenAG</small></span><p class="credit-role">For the <a href="https://github.com/ThirteenAG/WidescreenFixesPack" target="_blank" rel="noreferrer">WidescreenFixesPack</a> research used as a behavior reference. SH3 Enhanced’s patch logic is independently implemented.</p></article>
+        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/Steam006" target="_blank" rel="noreferrer">Steam006</a><small>@Steam006</small></span><p class="credit-role">For the <a href="https://community.pcgamingwiki.com/files/file/1331-silent-hill-3-pc-fix-by-steam006/" target="_blank" rel="noreferrer">Silent Hill 3 PC Fix</a> research, a useful reference when checking known PC-version issues and fixes.</p></article>
+        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/Polymega" target="_blank" rel="noreferrer">Polymega</a><small>@Polymega</small></span><p class="credit-role">For <a href="https://github.com/Polymega/SilentHillDatabase" target="_blank" rel="noreferrer">SilentHillDatabase</a> and its memory-address research, which helps locate and verify relevant data in the Silent Hill 3 executable.</p></article>
+        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/07151129" target="_blank" rel="noreferrer">07151129</a><small>@07151129</small></span><p class="credit-role">For <a href="https://github.com/07151129/sh3proxy" target="_blank" rel="noreferrer">sh3proxy</a> research that informed how SH3 Enhanced bypasses the Silent Hill 2 save requirement for its extra content. The project uses its own implementation.</p></article>
+      </div>
+      <h3 class="credit-subheading">Additional Software By...</h3>
+      <div class="credit-list">
+        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/ThirteenAG" target="_blank" rel="noreferrer">ThirteenAG</a><small>@ThirteenAG</small></span><p class="credit-role"><a href="https://github.com/ThirteenAG/Ultimate-ASI-Loader" target="_blank" rel="noreferrer">Ultimate ASI Loader</a>, used to load the SH3 Enhanced plugin beside the game’s executable.</p></article>
+        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/samuelgr/Xidi" target="_blank" rel="noreferrer">Samuel Grossman</a><small>@samuelgr</small></span><p class="credit-role"><a href="https://github.com/samuelgr/Xidi" target="_blank" rel="noreferrer">Xidi</a>, the bundled 32-bit bridge that lets XInput controllers work through Silent Hill 3’s DirectInput interface. The Xidi license is included with the project.</p></article>
+        <article class="credit-entry"><span class="credit-person"><a href="https://discord.com/developers/docs/game-sdk/sdk-starter-guide" target="_blank" rel="noreferrer">Discord</a><small>Game SDK</small></span><p class="credit-role">The <a href="https://discord.com/developers/docs/game-sdk/sdk-starter-guide" target="_blank" rel="noreferrer">Discord Game SDK</a> powers optional Rich Presence, which can show your current area and Heather's health when available.</p></article>
+      </div>
+      <h3 class="credit-subheading">Additional Assets By...</h3>
+      <div class="credit-list">
+        <article class="credit-entry"><span class="credit-person"><a href="https://kenney.nl/" target="_blank" rel="noreferrer">Kenney</a><small>Kenney.nl</small></span><p class="credit-role">The controller button, stick, and d-pad icons use CC0 artwork from the <a href="https://kenney.nl/assets/input-prompts" target="_blank" rel="noreferrer">Input Prompts</a> pack.</p></article>
+      </div>
+      <h3 class="credit-subheading">Project Reference</h3>
+      <div class="credit-list">
+        <article class="credit-entry"><span class="credit-person"><a href="https://enhanced.townofsilenthill.com/SH2/" target="_blank" rel="noreferrer">Silent Hill 2: Enhanced Edition</a><small>Project reference</small></span><p class="credit-role">Its project structure informed how SH3 Enhanced is organized, and its Configuration Tool was the main inspiration for the SH3 Enhanced Configuration Tool's interface design.</p></article>
       </div>
     </div></section>
   </main>
@@ -213,9 +301,14 @@
     <div class="section-wrap footer-inner">
       <div class="footer-topline">
         <p class="footer-notice">Unofficial project. Silent Hill 3 and related names and artwork belong to their respective owners. This site does not distribute game files.</p>
-      </div
+      </div>
     </div>
   </footer>
+
+  <dialog class="gallery-lightbox" aria-label="Expanded Silent Hill 3 screenshot">
+    <button type="button" aria-label="Close image">×</button>
+    <img alt="">
+  </dialog>
   <a class="back-to-top" href="#top" aria-label="Back to top" title="Back to top"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 12 6-6 6 6M10 6v9"/></svg></a>
   <script src="script.js"></script>
   <script>
@@ -224,5 +317,8 @@
       window.scrollTo(0, 0);
     }
   </script>
+  <!-- Cloudflare Web Analytics -->
+  <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "aa4ce2a458994c9f8e8a20f630c974b3"}'></script>
+  <!-- End Cloudflare Web Analytics -->
 </body>
 </html>

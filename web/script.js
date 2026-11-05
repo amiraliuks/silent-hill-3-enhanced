@@ -7,29 +7,43 @@ for (const comparison of document.querySelectorAll('.comparison')){
   update();
 }
 
-const comparisonTabs = Array.from(document.querySelectorAll('[role="tab"]'));
-for (const [index, tab] of comparisonTabs.entries()) {
-  tab.addEventListener('click', () => selectComparisonTab(tab));
-  tab.addEventListener('keydown', (event) => {
-    let nextIndex = index;
-    if (event.key === 'ArrowRight') nextIndex = (index + 1) % comparisonTabs.length;
-    else if (event.key === 'ArrowLeft') nextIndex = (index - 1 + comparisonTabs.length) % comparisonTabs.length;
-    else if (event.key === 'Home') nextIndex = 0;
-    else if (event.key === 'End') nextIndex = comparisonTabs.length - 1;
-    else return;
-    event.preventDefault();
-    selectComparisonTab(comparisonTabs[nextIndex]);
-    comparisonTabs[nextIndex].focus();
+const comparisonCarousel = document.querySelector('.comparison-carousel');
+if (comparisonCarousel) {
+  const slides = Array.from(comparisonCarousel.querySelectorAll('[data-comparison-slide]'));
+  const index = document.querySelector('.comparison-index');
+  const count = document.querySelector('.comparison-count');
+  const markers = slides.map((slide, slideIndex) => {
+    const marker = document.createElement('button');
+    marker.type = 'button';
+    marker.setAttribute('aria-label', `Show ${slide.dataset.comparisonName} comparison`);
+    marker.addEventListener('click', () => {
+      activeIndex = slideIndex;
+      showComparison(activeIndex);
+    });
+    index.insertBefore(marker, count);
+    return marker;
   });
-}
-
-function selectComparisonTab(activeTab) {
-  for (const tab of comparisonTabs) {
-    const active = tab === activeTab;
-    tab.setAttribute('aria-selected', String(active));
-    tab.tabIndex = active ? 0 : -1;
-    document.getElementById(tab.getAttribute('aria-controls')).hidden = !active;
-  }
+  const showComparison = (index) => {
+    const activeIndex = (index + slides.length) % slides.length;
+    slides.forEach((slide, slideIndex) => { slide.hidden = slideIndex !== activeIndex; });
+    markers.forEach((marker, markerIndex) => {
+      const active = markerIndex === activeIndex;
+      marker.classList.toggle('is-current', active);
+      if (active) marker.setAttribute('aria-current', 'true');
+      else marker.removeAttribute('aria-current');
+    });
+    if (count) count.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+  };
+  let activeIndex = 0;
+  comparisonCarousel.querySelector('.comparison-previous').addEventListener('click', () => {
+    activeIndex = (activeIndex - 1 + slides.length) % slides.length;
+    showComparison(activeIndex);
+  });
+  comparisonCarousel.querySelector('.comparison-next').addEventListener('click', () => {
+    activeIndex = (activeIndex + 1) % slides.length;
+    showComparison(activeIndex);
+  });
+  showComparison(activeIndex);
 }
 
 for (const question of document.querySelectorAll('.faq-question')) {
@@ -40,5 +54,24 @@ for (const question of document.querySelectorAll('.faq-question')) {
     question.closest('.faq-item').dataset.open = String(opening);
     answer.setAttribute('aria-hidden', String(!opening));
     answer.inert = !opening;
+  });
+}
+
+const galleryLightbox = document.querySelector('.gallery-lightbox');
+if (galleryLightbox) {
+  const enlargedImage = galleryLightbox.querySelector('img');
+  const closeButton = galleryLightbox.querySelector('button');
+  for (const link of document.querySelectorAll('[data-lightbox]')) {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      const thumbnail = link.querySelector('img');
+      enlargedImage.src = link.href;
+      enlargedImage.alt = thumbnail.alt;
+      galleryLightbox.showModal();
+    });
+  }
+  closeButton.addEventListener('click', () => galleryLightbox.close());
+  galleryLightbox.addEventListener('click', (event) => {
+    if (event.target === galleryLightbox) galleryLightbox.close();
   });
 }
