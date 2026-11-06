@@ -26,7 +26,7 @@ DWORD WINAPI InitializePlugin(void* bootstrapParameter)
     if (context.config.enableLogging)
         log::Initialize(context.gameDirectory);
 
-    log::Write("INFO", "Plugin version: 0.1.0-dev");
+    log::Write("INFO", "Plugin version: 1.0.0-dev.1");
     log::Write("INFO", "Silent Hill 3 Enhanced loaded.");
 
     if (context.config.disableMsaaForDof)
