@@ -32,7 +32,7 @@ namespace sh3e::patches::detail
         const auto pointer = reinterpret_cast<std::uintptr_t>(value);
         if (pointer > UINT32_MAX)
             return false;
-            
+
         const auto pointer32 = static_cast<std::uint32_t>(pointer);
         return WriteMemory(match.address + 2, &pointer32, sizeof(pointer32));
     }
