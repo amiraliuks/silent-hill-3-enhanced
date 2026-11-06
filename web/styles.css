@@ -184,6 +184,15 @@ a:hover {
   border: 1px solid var(--line);
   background: #050505;
 }
+.controller-prompts-comparison .compare-frame {
+  aspect-ratio: 16/9;
+}
+.controller-prompts-comparison .compare-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .compare-view {
   position: absolute;
   inset: 0;
