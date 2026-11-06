@@ -138,27 +138,27 @@ The Discord Rich Presence implementation uses the 32-bit Game SDK and reports th
 
 ## Credits
 
-[**Amir Aliu**](https://github.com/amiraliuks) - Created and maintains SH3 Enhanced, including its game patches, configuration tool, and project website.
+[**Amir Aliu**](https://github.com/amiraliuks) created and maintains SH3 Enhanced, including its game patches, configuration tool, and project website.
 
-[**ThirteenAG**](https://github.com/ThirteenAG) - For the [WidescreenFixesPack](https://github.com/ThirteenAG/WidescreenFixesPack) research used as a behavior reference. SH3 Enhanced's patch logic is independently implemented.
+[**ThirteenAG**](https://github.com/ThirteenAG) for the [WidescreenFixesPack](https://github.com/ThirteenAG/WidescreenFixesPack) research used as a behavior reference. SH3 Enhanced's patch logic is independently implemented.
 
-**Steam006** - For the [Silent Hill 3 PC Fix](https://community.pcgamingwiki.com/files/file/1331-silent-hill-3-pc-fix-by-steam006/) research, a useful reference when checking known PC-version issues and fixes.
+**Steam006** - for the [Silent Hill 3 PC Fix](https://community.pcgamingwiki.com/files/file/1331-silent-hill-3-pc-fix-by-steam006/) research, a useful reference when checking known PC-version issues and fixes.
 
-[**Polymega**](https://github.com/Polymega) - For [SilentHillDatabase](https://github.com/Polymega/SilentHillDatabase) and its memory-address research, which helps locate and verify relevant data in the Silent Hill 3 executable.
+[**Polymega**](https://github.com/Polymega) for [SilentHillDatabase](https://github.com/Polymega/SilentHillDatabase) and its memory-address research, which helps locate and verify relevant data in the Silent Hill 3 executable.
 
-[**07151129**](https://github.com/07151129) - For [sh3proxy](https://github.com/07151129/sh3proxy) research that informed how SH3 Enhanced bypasses the Silent Hill 2 save requirement for its extra content. The project uses its own implementation.
+[**07151129**](https://github.com/07151129) for [sh3proxy](https://github.com/07151129/sh3proxy) research that informed how SH3 Enhanced bypasses the Silent Hill 2 save requirement for its extra content. The project uses its own implementation.
 
 ### Additional software
 
-[**ThirteenAG**](https://github.com/ThirteenAG) - [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader), used to load the SH3 Enhanced plugin beside the game's executable.
+[**ThirteenAG**](https://github.com/ThirteenAG) for [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader), used to load the SH3 Enhanced plugin beside the game's executable.
 
-[**Samuel Grossman**](https://github.com/samuelgr) - [Xidi](https://github.com/samuelgr/Xidi) lets XInput controllers work through Silent Hill 3's DirectInput interface. The Xidi license is included with the project.
+[**Samuel Grossman**](https://github.com/samuelgr) for [Xidi](https://github.com/samuelgr/Xidi) lets XInput controllers work through Silent Hill 3's DirectInput interface. The Xidi license is included with the project.
 
 [**Discord Game SDK**](https://discord.com/developers/docs/game-sdk/sdk-starter-guide) - Optional setting for Discord Rich Presence, which can show the current area and Heather's health when available.
 
 ### Additional assets
 
-[**Kenney**](https://kenney.nl/) - The controller button, stick, and d-pad icons use CC0 artwork from the [Input Prompts](https://kenney.nl/assets/input-prompts) pack.
+[**Kenney**](https://kenney.nl/) for the controller button, stick, and d-pad icons use CC0 artwork from the [Input Prompts](https://kenney.nl/assets/input-prompts) pack.
 
 ## Disclaimer
 
