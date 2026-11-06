@@ -25,8 +25,7 @@ The mod runs as an ASI plugin and does not include game data. It is an independe
 
 - Widescreen aspect-ratio and field-of-view correction, with gameplay side bars removed.
 - Windowed and borderless fullscreen modes, plus configurable output and internal render resolutions.
-- Experimental 4:3 interface positioning; disabled by default because it can misalign mouse selection. The pause menu can independently expand to widescreen.
-- Cutscene border removal and three FMV display modes, including 16:9 sources.
+- Fullscreen pause-menu expansion, plus cutscene border removal and three FMV display modes, including 16:9 sources.
 - Configurable depth-of-field, shadow-map, and status-screen image resolutions.
 - Highest supported anisotropic filtering and adjustable fog complexity.
 - MSAA request suppression to prevent depth-of-field corruption; no post-processing injector is used.
@@ -85,8 +84,7 @@ Edit `SH3Enhanced.ini` in the game folder. These are the settings most users may
 | `RenderResolutionX`, `RenderResolutionY` | `0, 0` | Internal 3D render-target size, independent of output size. `0, 0` leaves it under game control. |
 | `WindowMode` | `0` | `0` fullscreen, `1` windowed, `2` borderless fullscreen. |
 | `WindowedWidth`, `WindowedHeight` | `1280, 720` | Window client size when `WindowMode=1` and no output size is forced. |
-| `Keep2DElementsAt4x3` | `false` | Experimental 4:3 positioning for supported interface elements. It can misalign mouse selection, so it is off by default. |
-| `FullscreenPauseMenu` | `true` | Expand the pause screen to widescreen independently of the 4:3 interface setting. |
+| `FullscreenPauseMenu` | `true` | Expand the pause screen to widescreen. |
 | `FMVWidescreenMode` | `2` | `0` original 4:3 framing, `1` crop to fill widescreen, `2` use 16:9 video sources. |
 | `DOFRes` | `1024` | Depth-of-field/otherworld-corrosion target resolution; `0` uses the game default. Maximum `4096`. |
 | `ShadowsRes` | `1024` | Dynamic shadow-map resolution; `0` uses the game default. Maximum `4096`. |

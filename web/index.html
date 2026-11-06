@@ -58,8 +58,7 @@
             <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Custom Resolutions:</strong> Sets the output size and internal render-target size independently.</span></li>
             <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Remove Black Bars:</strong> Removes the gameplay side bars.</span></li>
             <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Remove Cutscene Borders:</strong> Removes borders added during in-engine cutscenes.</span></li>
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>4:3 2D Elements:</strong> Keeps supported menus and interface elements in a 4:3 area on widescreen displays.</span></li>
-            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Fullscreen Pause Menu:</strong> Expands the pause menu to widescreen independently of the 4:3 2D Elements setting.</span></li>
+            <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Fullscreen Pause Menu:</strong> Expands the pause menu to widescreen.</span></li>
             <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>FMV Fix:</strong> Displays videos at 4:3 or crops them to fill widescreen; also supports 16:9 video sources.</span></li>
             <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>DoF Resolution:</strong> Sets the depth-of-field and otherworld-corrosion target resolution.</span></li>
             <li class="implemented"><span class="feature-mark" aria-label="Implemented">✓</span><span><strong>Shadow Resolution:</strong> Sets the dynamic shadow-map resolution.</span></li>
@@ -152,17 +151,10 @@
             </div>
           </article>
           <article class="comparison comparison-slide" data-comparison-slide data-comparison-name="Fullscreen pause menu" style="--split:50%" hidden>
-            <div class="comparison-meta"><h3>Fullscreen pause menu</h3><p class="compare-caption">Compare <code>FullscreenPauseMenu=false</code> and <code>true</code>; keep <code>Keep2DElementsAt4x3=true</code> for both captures.</p></div>
+            <div class="comparison-meta"><h3>Fullscreen pause menu</h3><p class="compare-caption">Compare <code>FullscreenPauseMenu=false</code> and <code>true</code>.</p></div>
             <div class="compare-frame placeholder-frame">
               <div class="compare-view view-off"><img src="assets/visual-comparisons/widescreen-pause-menu-4x3.png" alt="Silent Hill 3 pause menu in its original 4:3 layout" loading="lazy" decoding="async"></div><div class="compare-view view-on"><img src="assets/visual-comparisons/widescreen-pause-menu-16x9.png" alt="Silent Hill 3 pause menu with widescreen layout enabled" loading="lazy" decoding="async"></div>
               <span class="state-label label-off">4:3 MENU</span><span class="state-label label-on">FULLSCREEN MENU</span><div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare original and fullscreen pause menu layouts">
-            </div>
-          </article>
-          <article class="comparison comparison-slide" data-comparison-slide data-comparison-name="4:3 interface framing" style="--split:50%" hidden>
-            <div class="comparison-meta"><h3>4:3 interface framing</h3><p class="compare-caption">Compare <code>Keep2DElementsAt4x3=false</code> and <code>true</code> on a widescreen display. Keep the same pause or inventory screen open.</p></div>
-            <div class="compare-frame placeholder-frame">
-              <div class="compare-view view-off compare-placeholder"><span class="placeholder-copy"><strong>WIDESCREEN ELEMENTS</strong><small>Screenshot slot</small></span></div><div class="compare-view view-on compare-placeholder"><span class="placeholder-copy"><strong>4:3 ELEMENT AREA</strong><small>Screenshot slot</small></span></div>
-              <span class="state-label label-off">4:3 FIX OFF</span><span class="state-label label-on">4:3 FIX ON</span><div class="split-line" aria-hidden="true"><span>↔</span></div><input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare widescreen interface elements with 4:3 anchored elements">
             </div>
           </article>
           <article class="comparison comparison-slide" data-comparison-slide data-comparison-name="Fog detail" style="--split:50%" hidden>
@@ -260,8 +252,8 @@
           <div class="faq-answer" id="faq-a-render" role="region" aria-labelledby="faq-q-render" aria-hidden="true" inert><div class="faq-answer-inner"><p><code>ResolutionX</code> and <code>ResolutionY</code> control the display size. <code>RenderResolutionX</code> and <code>RenderResolutionY</code> set the game's internal render size. Leave the render values at <code>0</code> unless you specifically want to override the game's choice. Always set width and height together.</p></div></div>
         </article>
         <article class="faq-item">
-          <h3><button class="faq-question" id="faq-q-ui" type="button" aria-expanded="false" aria-controls="faq-a-ui">The menus or HUD don't fill my widescreen display</button></h3>
-          <div class="faq-answer" id="faq-a-ui" role="region" aria-labelledby="faq-q-ui" aria-hidden="true" inert><div class="faq-answer-inner"><p>By default, supported 2D elements stay arranged in a 4:3 area while gameplay uses the wider screen. Set <code>Keep2DElementsAt4x3=false</code> in <code>SH3Enhanced.ini</code> if you want to disable that behavior, then restart the game.</p></div></div>
+          <h3><button class="faq-question" id="faq-q-ui" type="button" aria-expanded="false" aria-controls="faq-a-ui">Can I make the pause menu fill my widescreen display?</button></h3>
+          <div class="faq-answer" id="faq-a-ui" role="region" aria-labelledby="faq-q-ui" aria-hidden="true" inert><div class="faq-answer-inner"><p>Set <code>FullscreenPauseMenu=true</code> in <code>SH3Enhanced.ini</code> to expand the pause menu to widescreen. This setting is enabled by default.</p></div></div>
         </article>
         <article class="faq-item">
           <h3><button class="faq-question" id="faq-q-fmv" type="button" aria-expanded="false" aria-controls="faq-a-fmv">Videos look cropped or have bars</button></h3>
