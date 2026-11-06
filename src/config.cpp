@@ -48,20 +48,6 @@ namespace
         return true;
     }
 
-    bool ParseKeyCode(const std::wstring& value, std::uint32_t& result)
-    {
-        if (value.empty() || value.front() == L'-') return false;
-        wchar_t* end = nullptr;
-        const int base = value.size() > 2 && value[0] == L'0' &&
-            (value[1] == L'x' || value[1] == L'X') ? 16 : 10;
-
-        const auto parsed = std::wcstoul(value.c_str(), &end, base);
-        if (end == value.c_str() || *end != L'\0' || parsed == 0 || parsed > 0xFF)
-            return false;
-
-        result = parsed;
-        return true;
-    }
 }
 
 sh3e::Config sh3e::LoadConfig(const std::wstring& path)
@@ -168,11 +154,6 @@ UnlockSH2EasterEggs=true
 ; Discord Developer Portal application ID. Leave empty to disable Rich Presence.
 DiscordApplicationId=1567098391790489640
 
-[FreeCamera]
-; Experimental free camera. Toggle with the configured key while the game is focused.
-Enabled=false
-; Virtual-key code in decimal or hexadecimal. 0x21 is Page Up.
-ToggleKey=0x21
 )SH3INI";
         return config;
     }
@@ -371,15 +352,6 @@ ToggleKey=0x21
                 std::all_of(value.begin(), value.end(), [](wchar_t c) { return c >= L'0' && c <= L'9'; }))
                 config.discordApplicationId = value;
         }
-        else if (section == L"FreeCamera")
-        {
-            const auto equals = line.find(L'=');
-            if (equals == std::wstring::npos) continue;
-            const auto key = Trim(line.substr(0, equals));
-            const auto value = Trim(line.substr(equals + 1));
-            if (key == L"Enabled") config.freeCameraEnabled = ParseBool(value, config.freeCameraEnabled);
-            else if (key == L"ToggleKey") ParseKeyCode(value, config.freeCameraToggleKey);
-        }
     }
 
     return config;
@@ -436,10 +408,6 @@ bool sh3e::SaveConfig(const std::wstring& path, const Config& config)
     ok &= writeBool(L"Content", L"RestoreMissingSewerText", config.restoreMissingSewerText);
     ok &= writeBool(L"Content", L"UnlockSH2EasterEggs", config.unlockSH2EasterEggs);
     ok &= WritePrivateProfileStringW(L"Discord", L"DiscordApplicationId", config.discordApplicationId.c_str(), path.c_str()) != FALSE;
-    ok &= writeBool(L"FreeCamera", L"Enabled", config.freeCameraEnabled);
-    wchar_t toggleKey[16]{};
-    swprintf_s(toggleKey, L"0x%X", config.freeCameraToggleKey);
-    ok &= WritePrivateProfileStringW(L"FreeCamera", L"ToggleKey", toggleKey, path.c_str()) != FALSE;
     WritePrivateProfileStringW(nullptr, nullptr, nullptr, path.c_str());
     return ok;
 }
