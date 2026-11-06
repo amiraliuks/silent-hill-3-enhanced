@@ -46,6 +46,7 @@ Release/
 x64/
 Win32/
 ipch/
+/build/
 
 # Compiled output
 *.asi
