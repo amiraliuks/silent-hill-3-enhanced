@@ -128,7 +128,7 @@ Build `sh2e.slnx` with `Release | Win32`. The plugin is written to `build/Win32/
 - `config-tool/` contains the Windows Configuration Tool.
 - `docs/DATABASE.md` indexes executable locations and research references.
 - `docs/reverse-engineering.md` records executable findings and unverified behavior.
-- `third_party/` contains the Discord Game SDK, Xidi, and selected Kenney controller prompts.
+- `third_party/` contains the Discord Game SDK, Xidi, selected Kenney controller prompts, and third-party license notices.
 - `tools/BuildControllerIconAtlas.ps1` regenerates the embedded controller prompt atlas.
 - `web/` contains the static project website.
 
@@ -136,15 +136,16 @@ The Discord Rich Presence implementation uses the 32-bit Game SDK and reports th
 
 ## Credits
 
-- [**Amir Aliu**](https://github.com/amiraliuks) created and maintains SH3 Enhanced, including its game patches, configuration tool, and project website.
-- [**ThirteenAG**](https://github.com/ThirteenAG) for the [WidescreenFixesPack](https://github.com/ThirteenAG/WidescreenFixesPack) research used as a behavior reference. SH3 Enhanced's patch logic is independently implemented.
-- **Steam006** - for the [Silent Hill 3 PC Fix](https://community.pcgamingwiki.com/files/file/1331-silent-hill-3-pc-fix-by-steam006/) research, a useful reference when checking known PC-version issues and fixes.
-- [**Polymega**](https://github.com/Polymega) for [SilentHillDatabase](https://github.com/Polymega/SilentHillDatabase) and its memory-address research, which helps locate and verify relevant data in the Silent Hill 3 executable.
-- [**07151129**](https://github.com/07151129) for [sh3proxy](https://github.com/07151129/sh3proxy) research that informed how SH3 Enhanced bypasses the Silent Hill 2 save requirement for its extra content. The project uses its own implementation.
-- [**ThirteenAG**](https://github.com/ThirteenAG) for [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader), used to load the SH3 Enhanced plugin beside the game's executable.
-- [**Samuel Grossman**](https://github.com/samuelgr) for [Xidi](https://github.com/samuelgr/Xidi) lets XInput controllers work through Silent Hill 3's DirectInput interface. The Xidi license is included with the project.
-- [**Discord Game SDK**](https://discord.com/developers/docs/game-sdk/sdk-starter-guide) - Optional setting for Discord Rich Presence, which can show the current area and Heather's health when available.
-- [**Kenney**](https://kenney.nl/) for the controller button, stick, and d-pad icons use CC0 artwork from the [Input Prompts](https://kenney.nl/assets/input-prompts) pack.
+SH3 Enhanced includes or references code, software, assets, and research from these projects:
+
+- [Silent Hill 3 Widescreen Fix](https://github.com/ThirteenAG/WidescreenFixesPack/tree/master/source/SilentHill3.FusionFix): Includes adapted code from the fix by [ThirteenAG](https://github.com/ThirteenAG). The MIT notice is in `third_party/widescreenfixespack/`.
+- [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader): Loads the plugin beside the game executable.
+- [Xidi](https://github.com/samuelgr/Xidi): Bridges XInput controllers to the game's DirectInput interface. Its license is included in `third_party/xidi/`.
+- [Discord Game SDK](https://discord.com/developers/docs/game-sdk/sdk-starter-guide): Provides optional Discord Rich Presence.
+- [Kenney Input Prompts](https://kenney.nl/assets/input-prompts): CC0 controller button, stick, and d-pad icons.
+- [Silent Hill 3 PC Fix](https://community.pcgamingwiki.com/files/file/1331-silent-hill-3-pc-fix-by-steam006/): Reference for known PC-version issues and fixes.
+- [SilentHillDatabase](https://github.com/Polymega/SilentHillDatabase): Memory-address research for the Silent Hill 3 executable.
+- [sh3proxy](https://github.com/07151129/sh3proxy): Research on unlocking SH2 references without a cleared SH2 save.
 
 ## Disclaimer
 
