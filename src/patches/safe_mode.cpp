@@ -43,10 +43,10 @@ bool InstallSafeModeDisable(HMODULE executable)
     if (emptyStringAddress > UINT32_MAX)
         return false;
 
-    constexpr std::uint32_t disableds = 0;
+    constexpr std::uint32_t disabledFlag = 0;
     const auto stringPointer = static_cast<std::uint32_t>(emptyStringAddress);
     if (!WriteMemory(match.address, skipResetCall, sizeof(skipResetCall)) ||
-        !WriteMemory(match.address + 6, &disabled, sizeof(disabled)) ||
+        !WriteMemory(match.address + 6, &disabledFlag, sizeof(disabledFlag)) ||
         !WriteMemory(match.address + 11, &stringPointer, sizeof(stringPointer)))
     {
         log::Write("ERROR", "[Safe mode] Could not disable the fallback reset and settings-file rewrite.");
