@@ -208,9 +208,8 @@
       <div class="section-heading"><div><h2>Get the patch</h2></div></div>
       <div class="release-record">
         <div class="release-record-head">
-          <div class="release-package-title"><p>RELEASE PACKAGE</p><h3>Version 1.0</h3></div>
-          <div class="release-fact"><span>RELEASE DATE</span><strong>To be announced</strong></div>
-          <div class="release-fact"><span>SHA-256</span><strong>Listed with release</strong></div>
+          <div class="release-package-title"><p>CURRENT BUILD</p><h3>Version 1.0.0-dev.1</h3></div>
+          <div class="release-fact"><span>RELEASE DATE</span><strong>06/11/2026</strong></div>
           <a class="hero-cta" href="https://github.com/amiraliuks/silent-hill-3-enhanced/releases" target="_blank" rel="noreferrer">View releases ↗</a>
         </div>
       </div>
@@ -276,23 +275,17 @@
 
     <section class="credits-section" id="credits"><div class="section-wrap">
       <div class="section-heading"><div><h2>Credits</h2></div></div>
-      <div class="credit-list">
-        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/amiraliuks" target="_blank" rel="noreferrer">Amir Aliu</a><small>@amiraliuks</small></span><p class="credit-role">Created and maintains SH3 Enhanced, including its game patches, configuration tool, and project website.</p></article>
-        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/ThirteenAG" target="_blank" rel="noreferrer">ThirteenAG</a><small>@ThirteenAG</small></span><p class="credit-role">For the <a href="https://github.com/ThirteenAG/WidescreenFixesPack" target="_blank" rel="noreferrer">WidescreenFixesPack</a> research used as a behavior reference. SH3 Enhanced’s patch logic is independently implemented.</p></article>
-        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/Steam006" target="_blank" rel="noreferrer">Steam006</a><small>@Steam006</small></span><p class="credit-role">For the <a href="https://community.pcgamingwiki.com/files/file/1331-silent-hill-3-pc-fix-by-steam006/" target="_blank" rel="noreferrer">Silent Hill 3 PC Fix</a> research, a useful reference when checking known PC-version issues and fixes.</p></article>
-        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/Polymega" target="_blank" rel="noreferrer">Polymega</a><small>@Polymega</small></span><p class="credit-role">For <a href="https://github.com/Polymega/SilentHillDatabase" target="_blank" rel="noreferrer">SilentHillDatabase</a> and its memory-address research, which helps locate and verify relevant data in the Silent Hill 3 executable.</p></article>
-        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/07151129" target="_blank" rel="noreferrer">07151129</a><small>@07151129</small></span><p class="credit-role">For <a href="https://github.com/07151129/sh3proxy" target="_blank" rel="noreferrer">sh3proxy</a> research that informed how SH3 Enhanced bypasses the Silent Hill 2 save requirement for its extra content. The project uses its own implementation.</p></article>
-      </div>
-      <h3 class="credit-subheading">Additional Software By...</h3>
-      <div class="credit-list">
-        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/ThirteenAG" target="_blank" rel="noreferrer">ThirteenAG</a><small>@ThirteenAG</small></span><p class="credit-role"><a href="https://github.com/ThirteenAG/Ultimate-ASI-Loader" target="_blank" rel="noreferrer">Ultimate ASI Loader</a>, used to load the SH3 Enhanced plugin beside the game’s executable.</p></article>
-        <article class="credit-entry"><span class="credit-person"><a href="https://github.com/samuelgr/Xidi" target="_blank" rel="noreferrer">Samuel Grossman</a><small>@samuelgr</small></span><p class="credit-role"><a href="https://github.com/samuelgr/Xidi" target="_blank" rel="noreferrer">Xidi</a>, the bundled 32-bit bridge that lets XInput controllers work through Silent Hill 3’s DirectInput interface. The Xidi license is included with the project.</p></article>
-        <article class="credit-entry"><span class="credit-person"><a href="https://discord.com/developers/docs/game-sdk/sdk-starter-guide" target="_blank" rel="noreferrer">Discord</a><small>Game SDK</small></span><p class="credit-role">The <a href="https://discord.com/developers/docs/game-sdk/sdk-starter-guide" target="_blank" rel="noreferrer">Discord Game SDK</a> powers optional Rich Presence, which can show your current area and Heather's health when available.</p></article>
-      </div>
-      <h3 class="credit-subheading">Additional Assets By...</h3>
-      <div class="credit-list">
-        <article class="credit-entry"><span class="credit-person"><a href="https://kenney.nl/" target="_blank" rel="noreferrer">Kenney</a><small>Kenney.nl</small></span><p class="credit-role">The controller button, stick, and d-pad icons use CC0 artwork from the <a href="https://kenney.nl/assets/input-prompts" target="_blank" rel="noreferrer">Input Prompts</a> pack.</p></article>
-      </div>
+      <p class="credits-intro">SH3 Enhanced includes or references code, software, assets, and research from these projects:</p>
+      <ul class="credits-list">
+        <li><a href="https://github.com/ThirteenAG/WidescreenFixesPack/tree/master/source/SilentHill3.FusionFix" target="_blank" rel="noreferrer">Silent Hill 3 Widescreen Fix</a>: Includes adapted code from the fix by <a href="https://github.com/ThirteenAG" target="_blank" rel="noreferrer">ThirteenAG</a>.</li>
+        <li><a href="https://github.com/ThirteenAG/Ultimate-ASI-Loader" target="_blank" rel="noreferrer">Ultimate ASI Loader</a>: Loads the plugin beside the game executable.</li>
+        <li><a href="https://github.com/samuelgr/Xidi" target="_blank" rel="noreferrer">Xidi</a>: Bridges XInput controllers to the game's DirectInput interface. Its license is included in <code>third_party/xidi/</code>.</li>
+        <li><a href="https://discord.com/developers/docs/game-sdk/sdk-starter-guide" target="_blank" rel="noreferrer">Discord Game SDK</a>: Provides optional Discord Rich Presence.</li>
+        <li><a href="https://kenney.nl/assets/input-prompts" target="_blank" rel="noreferrer">Kenney Input Prompts</a>: CC0 controller button, stick, and d-pad icons.</li>
+        <li><a href="https://community.pcgamingwiki.com/files/file/1331-silent-hill-3-pc-fix-by-steam006/" target="_blank" rel="noreferrer">Silent Hill 3 PC Fix</a>: Reference for known PC-version issues and fixes.</li>
+        <li><a href="https://github.com/Polymega/SilentHillDatabase" target="_blank" rel="noreferrer">SilentHillDatabase</a>: Memory-address research for the Silent Hill 3 executable.</li>
+        <li><a href="https://github.com/07151129/sh3proxy" target="_blank" rel="noreferrer">sh3proxy</a>: Research on unlocking SH2 references without a cleared SH2 save.</li>
+      </ul>
     </div>
   </section>
   </main>

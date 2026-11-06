@@ -62,9 +62,10 @@ The features above have been implemented; some graphics behavior and compatibili
 ## Installation
 
 1. Use a legitimate copy of the Windows PC release of *Silent Hill 3*.
-2. Put the x86 [`dinput8.dll` build of Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases) beside `sh3.exe`.
-3. Copy `SH3Enhanced.asi`, `SH3Enhanced.ini`, `discord_game_sdk.dll`, and `Xidi.32.dll` from `build/Win32/Release` beside `sh3.exe`.
-4. Start the game. If a feature does not load, check `SH3Enhanced.log` beside `sh3.exe`.
+2. Download the latest [SH3 Enhanced release](https://github.com/amiraliuks/silent-hill-3-enhanced/releases).
+3. Extract the release files into your Silent Hill 3 folder, beside `sh3.exe`.
+4. Optionally run `SH3Enhanced.ConfigTool.exe` to edit the patch settings. It can save the configuration beside `sh3.exe` and launch the game.
+5. Start the game. If a feature does not load, check `SH3Enhanced.log` beside `sh3.exe`.
 
 The supported game executable has CRC32 `372AE792`; other versions may not match the patch signatures.
 
@@ -73,7 +74,7 @@ The supported game executable has CRC32 `372AE792`; other versions may not match
 Use the **SH3 Enhanced Configuration Tool** or edit `SH3Enhanced.ini` directly. The tool can save settings beside a selected `sh3.exe` and launch the game; it does not install the ASI plugin or loader. Settings apply after restarting the game.
 
 <p align="center">
-  <img src="https://i.imgur.com/T7YkD6t.png" alt="SH3 Enhanced Configuration Tool" width="850">
+  <img src="https://i.imgur.com/T7YkD6t.png" alt="SH3 Enhanced Configuration Tool" width="700">
 </p>
 
 Edit `SH3Enhanced.ini` in the game folder. These are the settings most users may want to change:
