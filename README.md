@@ -164,6 +164,10 @@ The Discord Rich Presence implementation uses the 32-bit Game SDK and reports th
 
 This project is unofficial and is not affiliated with or endorsed by Konami. It contains no game data, music, video, or other Silent Hill 3 assets. You must provide your own copy of the game.
 
+This project contains AI-assisted code.
+
+AI-assisted code is reviewed, tested, and refined as part of the development process. The project remains an independent, personal effort focused on learning C++, reverse engineering, and understanding the inner workings of Silent Hill 3.
+
 ## Project website
 
 The website source is in [`web/`](web/). Its homepage brings together project features, visual comparisons, installation and configuration guides, FAQs, and these credits.
