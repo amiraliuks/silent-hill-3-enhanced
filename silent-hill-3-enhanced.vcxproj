@@ -106,11 +106,16 @@
 
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\startup\plugin.cpp" />
+    <ClCompile Include="src\startup\system.cpp" />
+    <ClCompile Include="src\startup\content.cpp" />
+    <ClCompile Include="src\startup\graphics.cpp" />
+    <ClCompile Include="src\startup\controller.cpp" />
+    <ClCompile Include="src\startup\diagnostics.cpp" />
     <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\config.cpp" />
     <ClCompile Include="src\discord_presence.cpp" />
     <ClCompile Include="src\game_state.cpp" />
-    <ClCompile Include="src\free_camera.cpp" />
     <ClCompile Include="src\pattern.cpp" />
     <ClCompile Include="src\screen_state.cpp" />
     <ClCompile Include="src\patches\options_menu_freeze.cpp" />
@@ -140,13 +145,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ClInclude Include="src\startup\startup.h" />
+    <ClInclude Include="src\startup\context.h" />
     <ClInclude Include="src\config.h" />
     <ClInclude Include="src\logger.h" />
     <ClInclude Include="src\pattern.h" />
     <ClInclude Include="src\screen_state.h" />
     <ClInclude Include="src\discord_presence.h" />
     <ClInclude Include="src\game_state.h" />
-    <ClInclude Include="src\free_camera.h" />
     <ClInclude Include="src\patches\patches.h" />
     <ClInclude Include="src\patches\patch_utils.h" />
     <ClInclude Include="src\patches\muted_audio.h" />

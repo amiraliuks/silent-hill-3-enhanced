@@ -16,8 +16,14 @@
     <Filter Include="Source Files\patches">
       <UniqueIdentifier>{E1A82A1A-01E2-46D8-A8EA-49B3F37B3D0C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\startup">
+      <UniqueIdentifier>{8A048B5C-EAD1-4584-BCE5-3CE3F4C65D37}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\patches">
       <UniqueIdentifier>{CB43FD29-6D0D-4169-A698-8344A416C76A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\startup">
+      <UniqueIdentifier>{CF8E306A-24A4-44CE-919E-91C74F02F083}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 
@@ -25,12 +31,20 @@
     <ClCompile Include="src\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\startup\plugin.cpp"><Filter>Source Files\startup</Filter></ClCompile>
+    <ClCompile Include="src\startup\system.cpp"><Filter>Source Files\startup</Filter></ClCompile>
+    <ClCompile Include="src\startup\content.cpp"><Filter>Source Files\startup</Filter></ClCompile>
+    <ClCompile Include="src\startup\graphics.cpp"><Filter>Source Files\startup</Filter></ClCompile>
+    <ClCompile Include="src\startup\controller.cpp"><Filter>Source Files\startup</Filter></ClCompile>
+    <ClCompile Include="src\startup\diagnostics.cpp"><Filter>Source Files\startup</Filter></ClCompile>
     <ClCompile Include="src\config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 
   <ItemGroup>
+    <ClInclude Include="src\startup\startup.h"><Filter>Header Files\startup</Filter></ClInclude>
+    <ClInclude Include="src\startup\context.h"><Filter>Header Files\startup</Filter></ClInclude>
     <ClInclude Include="src\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
