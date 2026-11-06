@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="SH3EnhancedConfigTool.vcxproj" Id="ce5ff26e-bbc7-49cf-83d7-4b5520acf67b" />
+</Solution>
