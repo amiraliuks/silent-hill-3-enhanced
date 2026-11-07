@@ -4,6 +4,7 @@
 #include "../patches/patches.h"
 #include "../patches/patch_utils.h"
 #include "../patches/muted_audio.h"
+#include "runtime_dependencies.h"
 #include <cstdint>
 
 namespace sh3e::startup
@@ -18,7 +19,9 @@ void InitializeSystem(StartupContext& context)
         log::Write("WARN", "[Muted audio] Could not start Windows audio-session recovery.");
 
     log::Write("INFO", "Executable module base: " + patches::detail::Hex(reinterpret_cast<std::uintptr_t>(context.executable)));
-    StartDiscordPresence(config.discordApplicationId);
+    const auto runtimeDependencies = CheckRuntimeDependencies(config, context.gameDirectory);
+    if (config.enableRichPresence && runtimeDependencies.discordPresenceAvailable)
+        StartDiscordPresence(config.discordApplicationId);
 
     if (config.registryRedirect)
     {

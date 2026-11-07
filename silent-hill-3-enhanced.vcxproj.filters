@@ -33,6 +33,7 @@
     </ClCompile>
     <ClCompile Include="src\startup\plugin.cpp"><Filter>Source Files\startup</Filter></ClCompile>
     <ClCompile Include="src\startup\system.cpp"><Filter>Source Files\startup</Filter></ClCompile>
+    <ClCompile Include="src\startup\runtime_dependencies.cpp"><Filter>Source Files\startup</Filter></ClCompile>
     <ClCompile Include="src\startup\content.cpp"><Filter>Source Files\startup</Filter></ClCompile>
     <ClCompile Include="src\startup\graphics.cpp"><Filter>Source Files\startup</Filter></ClCompile>
     <ClCompile Include="src\startup\controller.cpp"><Filter>Source Files\startup</Filter></ClCompile>
@@ -45,6 +46,7 @@
   <ItemGroup>
     <ClInclude Include="src\startup\startup.h"><Filter>Header Files\startup</Filter></ClInclude>
     <ClInclude Include="src\startup\context.h"><Filter>Header Files\startup</Filter></ClInclude>
+    <ClInclude Include="src\startup\runtime_dependencies.h"><Filter>Header Files\startup</Filter></ClInclude>
     <ClInclude Include="src\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>

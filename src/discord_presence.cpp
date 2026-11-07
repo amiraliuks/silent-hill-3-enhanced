@@ -1,6 +1,7 @@
 #include "discord_presence.h"
 #include "game_state.h"
 #include "logger.h"
+#include "startup/runtime_dependencies.h"
 
 #include <discord_game_sdk.h>
 #include <Windows.h>
@@ -24,18 +25,26 @@ namespace
     using DiscordCreateFunction = EDiscordResult (DISCORD_API*)(
         DiscordVersion, DiscordCreateParams*, IDiscordCore**);
 
-    HMODULE LoadSdk()
+    HMODULE LoadSdk(std::wstring& sdkPath)
     {
         wchar_t executablePath[MAX_PATH]{};
         const auto length = GetModuleFileNameW(nullptr, executablePath, MAX_PATH);
         if (length == 0 || length >= MAX_PATH)
+        {
+            sdkPath = L"discord_game_sdk.dll";
+            SetLastError(ERROR_PATH_NOT_FOUND);
             return nullptr;
+        }
 
-        std::wstring sdkPath(executablePath, length);
+        sdkPath.assign(executablePath, length);
         const auto separator = sdkPath.find_last_of(L"\\/");
         
         if (separator == std::wstring::npos)
+        {
+            sdkPath = L"discord_game_sdk.dll";
+            SetLastError(ERROR_PATH_NOT_FOUND);
             return nullptr;
+        }
 
         sdkPath.resize(separator + 1);
         sdkPath += L"discord_game_sdk.dll";
@@ -57,12 +66,6 @@ namespace
     IDiscordCore* CreateDiscordCore(std::int64_t applicationId, HMODULE sdk)
     {
         const auto create = reinterpret_cast<DiscordCreateFunction>(GetProcAddress(sdk, "DiscordCreate"));
-
-        if (create == nullptr)
-        {
-            log::Write("WARN", "[Discord Rich Presence] DiscordCreate export was not found in the Game SDK.");
-            return nullptr;
-        }
 
         DiscordCreateParams params{};
         DiscordCreateParamsSetDefault(&params);
@@ -109,12 +112,23 @@ namespace
 
         while (g_running.load())
         {
-            const auto sdk = LoadSdk();
+            std::wstring sdkPath;
+            const auto sdk = LoadSdk(sdkPath);
             if (sdk == nullptr)
             {
-                log::Write("INFO", "[Discord Rich Presence] Could not load discord_game_sdk.dll; retrying.");
-                std::this_thread::sleep_for(kRetryDelay);
-                continue;
+                const auto errorCode = GetLastError();
+                g_running.store(false);
+                ReportRuntimeDependencyLoadFailure(L"Discord Rich Presence", sdkPath,
+                    errorCode == ERROR_SUCCESS ? ERROR_MOD_NOT_FOUND : errorCode);
+                return;
+            }
+
+            if (GetProcAddress(sdk, "DiscordCreate") == nullptr)
+            {
+                FreeLibrary(sdk);
+                g_running.store(false);
+                ReportRuntimeDependencyLoadFailure(L"Discord Rich Presence", sdkPath, ERROR_PROC_NOT_FOUND);
+                return;
             }
 
             auto* core = CreateDiscordCore(applicationId, sdk);

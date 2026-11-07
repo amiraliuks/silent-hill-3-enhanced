@@ -108,6 +108,7 @@
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\startup\plugin.cpp" />
     <ClCompile Include="src\startup\system.cpp" />
+    <ClCompile Include="src\startup\runtime_dependencies.cpp" />
     <ClCompile Include="src\startup\content.cpp" />
     <ClCompile Include="src\startup\graphics.cpp" />
     <ClCompile Include="src\startup\controller.cpp" />
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="src\startup\startup.h" />
     <ClInclude Include="src\startup\context.h" />
+    <ClInclude Include="src\startup\runtime_dependencies.h" />
     <ClInclude Include="src\config.h" />
     <ClInclude Include="src\logger.h" />
     <ClInclude Include="src\pattern.h" />
