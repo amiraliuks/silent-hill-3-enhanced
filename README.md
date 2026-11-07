@@ -55,6 +55,8 @@ The features above have been implemented; some graphics behavior and compatibili
 - Upscale the title/splash artwork and establish a reversible replacement workflow. (`data/pic/sy/sys_title.tex` (512×512); the opening movie is a separate asset)
 - Identify and assess the inventory backdrop and item atlases. The known item atlases are already 1024×1024.
 - Add a safe way to load custom picture replacements, including files stored in `pic.arc`, without editing original game files.
+- Find a way to add the PS2-exclusive media outlet costumes to the PC version. ([Costume list and codes](https://www.silenthillmemories.net/sh3/costumes_en.htm))
+- Investigate ways to enhance or replace SH3's FMVs, inspired by the FMV Enhancement Pack in [Silent Hill 2: Enhanced Edition](https://enhanced.townofsilenthill.com/SH2/about.htm).
 - Implement Achievement system, using the achievements of Silent Hill HD Collection.
 - Find way to use the [Silent Hill 3 Audio Enhancement Pack](https://www.moddb.com/mods/silent-hill-3-audio-enhancement-pack) without installing [Reloaded II](https://github.com/Reloaded-Project/Reloaded-II).
 - Leave audio restoration for later: investigate missing dialogue, optional beta sounds, and the `PulseEvent` synchronization issue.
