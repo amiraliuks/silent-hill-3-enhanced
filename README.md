@@ -119,9 +119,19 @@ The text fixes use a temporary patched copy of `data\msg.arc`; the original arch
 
 ## Build
 
-Requirements: Windows, Visual Studio with the MSVC v145 toolset, the Windows SDK, and the Win32/x86 target.
+Requirements: Windows, Visual Studio with the **Desktop development with C++** workload, the MSVC v145 toolset, and a Windows SDK.
 
-Build `silent-hill-3-enhanced.slnx` with `Release | Win32`. The plugin is written to `build/Win32/Release/SH3Enhanced.asi`. Build the configuration tool separately from `config-tool/SH3EnhancedConfigTool.slnx`.
+### Plugin
+
+Open `silent-hill-3-enhanced.slnx` in Visual Studio, select `Release | Win32`, and build the solution.
+
+The plugin and its bundled runtime files are written to `build/Win32/Release/`. The main plugin is `SH3Enhanced.asi`.
+
+### Configuration Tool
+
+Build `config-tool/SH3EnhancedConfigTool.slnx` separately, also using `Release | Win32`.
+
+The executable is written to `build/ConfigTool/Win32/Release/SH3Enhanced Config Tool.exe`.
 
 ## Project layout
 
