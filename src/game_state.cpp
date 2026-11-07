@@ -105,16 +105,6 @@ namespace
         return "Exploring Silent Hill";
     }
 
-    const char* GetHealthDescription(float health)
-    {
-        if (health <= 25.0f)
-            return "Danger";
-
-        if (health <= 60.0f)
-            return "Caution";
-
-        return "Fine";
-    }
 }
 
 GameState ReadGameState()
@@ -135,7 +125,7 @@ GameState ReadGameState()
         std::isfinite(state.healthPercent) && state.healthPercent >= 0.0f && state.healthPercent <= 100.0f)
     {
         char healthText[48]{};
-        sprintf_s(healthText, "Health: %s (%.0f%%)", GetHealthDescription(state.healthPercent), state.healthPercent);
+        sprintf_s(healthText, "Currently at %.0f%% health", state.healthPercent);
         state.health = healthText;
         state.hasHealth = true;
     }
