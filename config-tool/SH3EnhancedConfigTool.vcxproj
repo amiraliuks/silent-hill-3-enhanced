@@ -75,7 +75,7 @@
   <PropertyGroup Label="UserMacros" />
 
   <PropertyGroup>
-    <TargetName>SH3Enhanced.ConfigTool</TargetName>
+    <TargetName>SH3Enhanced Config Tool</TargetName>
     <OutDir>$(ProjectDir)..\build\ConfigTool\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)..\build\obj\ConfigTool\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
