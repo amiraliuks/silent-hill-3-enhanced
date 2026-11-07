@@ -64,7 +64,7 @@ The features above have been implemented; some graphics behavior and compatibili
 1. Use a legitimate copy of the Windows PC release of *Silent Hill 3*.
 2. Download the latest [SH3 Enhanced release](https://github.com/amiraliuks/silent-hill-3-enhanced/releases).
 3. Extract the release files into your Silent Hill 3 folder, beside `sh3.exe`.
-4. Optionally run `SH3Enhanced.ConfigTool.exe` to edit the patch settings. It can save the configuration beside `sh3.exe` and launch the game.
+4. Optionally run `SH3Enhanced Config Tool.exe` to edit the patch settings. It can save the configuration beside `sh3.exe` and launch the game.
 5. Start the game. If a feature does not load, check `SH3Enhanced.log` beside `sh3.exe`.
 
 The supported game executable has CRC32 `372AE792`; other versions may not match the patch signatures.
@@ -95,6 +95,7 @@ Edit `SH3Enhanced.ini` in the game folder. These are the settings most users may
 | `FrameRateMode` | `60` | `0` unlocked, `30`, or `60` FPS timing. |
 | `MirrorRoomFix` | `true` | Temporarily cap the mirror storeroom at 30 FPS. Requires `FrameRateMode=60`. |
 | `ReplaceButtonText` | `3` | Controller prompts: `0` game labels, `1` generic, `2` Xbox, `3` PlayStation, `4` Nintendo. |
+| `EnableRichPresence` | `true` | Enable Discord Rich Presence. Set to `false` to skip loading its optional Game SDK. |
 | `AnisotropicTextureFiltering` | `true` | Use the highest anisotropy level supported by the device. |
 | `DisableMSAAForDoF` | `true` | Prevent multisample requests that can corrupt depth of field. Does not add FXAA. |
 | `RemoveCutsceneBorders` | `true` | Remove the borders added to in-engine cutscenes. |

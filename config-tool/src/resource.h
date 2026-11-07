@@ -65,5 +65,6 @@
 #define IDC_LABEL_CPU_MASK             1511
 #define IDC_BUTTON_ICON_STYLE          1306
 #define IDC_FIX_MUTED_AUDIO             1307
+#define IDC_ENABLE_RICH_PRESENCE        1308
 
 #define IDI_CONFIG_TOOL                1600

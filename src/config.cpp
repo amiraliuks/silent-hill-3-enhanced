@@ -151,6 +151,9 @@ RestoreMissingSewerText=true
 UnlockSH2EasterEggs=true
 
 [Discord]
+; Enable Discord Rich Presence. Enabled by default; set false to turn it off.
+EnableRichPresence=true
+
 ; Discord Developer Portal application ID. Leave empty to disable Rich Presence.
 DiscordApplicationId=1567098391790489640
 
@@ -348,7 +351,9 @@ DiscordApplicationId=1567098391790489640
             const auto key = Trim(line.substr(0, equals));
             const auto value = Trim(line.substr(equals + 1));
 
-            if (key == L"DiscordApplicationId" && value.size() <= 19 &&
+            if (key == L"EnableRichPresence")
+                config.enableRichPresence = ParseBool(value, config.enableRichPresence);
+            else if (key == L"DiscordApplicationId" && value.size() <= 19 &&
                 std::all_of(value.begin(), value.end(), [](wchar_t c) { return c >= L'0' && c <= L'9'; }))
                 config.discordApplicationId = value;
         }
@@ -407,6 +412,7 @@ bool sh3e::SaveConfig(const std::wstring& path, const Config& config)
     ok &= writeBool(L"Content", L"FixEnglishTypos", config.fixEnglishTypos);
     ok &= writeBool(L"Content", L"RestoreMissingSewerText", config.restoreMissingSewerText);
     ok &= writeBool(L"Content", L"UnlockSH2EasterEggs", config.unlockSH2EasterEggs);
+    ok &= writeBool(L"Discord", L"EnableRichPresence", config.enableRichPresence);
     ok &= WritePrivateProfileStringW(L"Discord", L"DiscordApplicationId", config.discordApplicationId.c_str(), path.c_str()) != FALSE;
     WritePrivateProfileStringW(nullptr, nullptr, nullptr, path.c_str());
     return ok;

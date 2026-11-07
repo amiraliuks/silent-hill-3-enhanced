@@ -21,6 +21,7 @@ namespace sh3e
         bool fixEnglishTypos = true;
         bool restoreMissingSewerText = true;
         bool unlockSH2EasterEggs = true;
+        bool enableRichPresence = true;
         std::uint32_t cpuAffinityMask = 0;
         std::wstring discordApplicationId = L"1567098391790489640";
         int fmvWidescreenMode = 2;

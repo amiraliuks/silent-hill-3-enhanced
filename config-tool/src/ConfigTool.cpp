@@ -57,6 +57,7 @@ namespace
         { IDC_EXCEPTION_HANDLER, L"Crash minidumps", L"Write crash dump files into crash_dumps beside the game executable." },
         { IDC_FIX_MUTED_AUDIO, L"Muted audio recovery", L"Clear a persisted mute on SH3's Windows audio session after the game starts. The check runs once when the game's audio session becomes available; it does not keep overriding volume changes during play." },
         { IDC_ENABLE_LOGGING, L"Plugin log", L"Write plugin startup and patch details to SH3Enhanced.log." },
+        { IDC_ENABLE_RICH_PRESENCE, L"Discord Rich Presence", L"Show your current Silent Hill 3 area and health in Discord. Requires a valid Discord application ID in SH3Enhanced.ini and the bundled Game SDK. When disabled, the SDK is not checked or loaded." },
         { IDC_BUTTON_ICON_STYLE, L"Controller prompts", L"Choose which controller prompt family to show in Control Options. Off keeps the game's original labels." },
         { IDC_FIX_WISH_HOUSE, L"Wish House text fix", L"Correct English references to Hope House in the message archive." },
         { IDC_FIX_TYPOS, L"English typo fixes", L"Correct the identified subway, apartment, and hospital text errors." },
@@ -215,6 +216,7 @@ namespace
             SetCheck(page, IDC_FIX_MUTED_AUDIO, g_config.fixMutedAudio);
             wchar_t affinity[16]{}; swprintf_s(affinity, L"0x%X", g_config.cpuAffinityMask); SetDlgItemTextW(page, IDC_CPU_AFFINITY, affinity);
             SetCheck(page, IDC_EXCEPTION_HANDLER, g_config.exceptionHandler); SetCheck(page, IDC_ENABLE_LOGGING, g_config.enableLogging);
+            SetCheck(page, IDC_ENABLE_RICH_PRESENCE, g_config.enableRichPresence);
             SendDlgItemMessageW(page, IDC_BUTTON_ICON_STYLE, CB_SETCURSEL, g_config.replaceButtonText, 0);
         }
         page = g_pages[3];
@@ -272,6 +274,7 @@ namespace
         g_config.fixWhiteBorder = IsChecked(page, IDC_WHITE_BORDER); g_config.exceptionHandler = IsChecked(page, IDC_EXCEPTION_HANDLER);
         g_config.fixMutedAudio = IsChecked(page, IDC_FIX_MUTED_AUDIO);
         g_config.enableLogging = IsChecked(page, IDC_ENABLE_LOGGING);
+        g_config.enableRichPresence = IsChecked(page, IDC_ENABLE_RICH_PRESENCE);
         g_config.replaceButtonText = static_cast<int>(SendDlgItemMessageW(page, IDC_BUTTON_ICON_STYLE, CB_GETCURSEL, 0, 0));
         wchar_t mask[64]{}; GetDlgItemTextW(page, IDC_CPU_AFFINITY, mask, static_cast<int>(std::size(mask)));
         wchar_t* end{}; const unsigned long parsedMask = wcstoul(mask, &end, 0);
