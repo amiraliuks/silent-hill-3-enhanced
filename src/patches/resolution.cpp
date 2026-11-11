@@ -253,7 +253,8 @@ namespace
             return false;
         }
 
-        if (g_fmvWidescreenMode > 0)
+        // Keep the fullscreen FMV bounds consistent with the selected aspect
+        // ratio in every widescreen mode, including the original 4:3 mode.
         {
             const auto fullscreenOffsetMatches = sh3e::FindPattern(executable, *fullscreenOffsetPattern);
             const auto fullscreenHeightMatches = sh3e::FindPattern(executable, *fullscreenHeightPattern);
@@ -261,7 +262,7 @@ namespace
                 !RedirectFloatOperandToZero(fullscreenOffsetMatches.front()) ||
                 !RedirectFloatOperand(fullscreenHeightMatches.front(), &g_fmvOffset3))
             {
-                sh3e::log::Write("ERROR", "[FMV] Could not install the configured widescreen video mode.");
+                sh3e::log::Write("ERROR", "[FMV] Could not install the fullscreen frame bounds.");
                 return false;
             }
         }
