@@ -35,12 +35,12 @@ DWORD WINAPI InitializePlugin(void* bootstrapParameter)
         log::Write("INFO", "[MSAA / DoF] Multisampling override is disabled.");
 
     InitializeSystem(context);
-    InitializeContent(context);
     InitializeGraphics(context);
+    InitializeContent(context);
+    patches::SignalContentArchiveReady();
     InitializeController(context);
     LogStartupDiagnostics(context);
 
-    patches::SignalContentArchiveReady();
     log::Write("INFO", "[Startup timing] Plugin initialization finished.");
     return 0;
 }

@@ -8,7 +8,9 @@
 #include <cstring>
 #include <iterator>
 #include <limits>
+#include <mutex>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace sh3e::patches
@@ -21,9 +23,37 @@ namespace
     CreateFileAFunction g_originalCreateFileA = nullptr;
     CreateFileWFunction g_originalCreateFileW = nullptr;
     HANDLE g_archiveReadyEvent = nullptr;
+    volatile LONG g_archiveRedirectWaitTimedOut = 0;
     bool g_fileOpenHooksInstalled = false;
     std::wstring g_overrideArchivePath;
     std::string g_overrideArchivePathA;
+    std::vector<std::pair<std::wstring, std::wstring>> g_audioArchiveRedirectsW;
+    std::vector<std::pair<std::string, std::string>> g_audioArchiveRedirectsA;
+    std::vector<bool> g_audioArchiveRedirectLogged;
+    volatile LONG g_firstAudioArchiveOpenTraceStarted = 0;
+#if !defined(SH3E_DISABLE_PS2_COSTUMES) && !defined(SH3E_DISABLE_PS2_COSTUME_MODELS)
+    std::vector<std::pair<std::wstring, std::wstring>> g_costumeArchiveRedirectsW;
+    std::vector<std::pair<std::string, std::string>> g_costumeArchiveRedirectsA;
+    std::vector<bool> g_costumeArchiveRedirectLogged;
+#endif
+    std::mutex g_audioArchiveRedirectLogMutex;
+
+    bool WaitForContentArchiveReady()
+    {
+        if (!g_archiveReadyEvent)
+            return true;
+        if (InterlockedCompareExchange(&g_archiveRedirectWaitTimedOut, 0, 0) != 0)
+            return false;
+
+        const auto result = WaitForSingleObject(g_archiveReadyEvent, INFINITE);
+        if (result == WAIT_OBJECT_0)
+            return true;
+
+        InterlockedExchange(&g_archiveRedirectWaitTimedOut, 1);
+        const auto detail = "failed with Win32 error " + std::to_string(GetLastError());
+        sh3e::log::Write("WARN", "[Content] Archive redirects were not ready (" + detail + "); using original archives for this launch.");
+        return false;
+    }
 
     constexpr std::uint32_t kMessageCount = 371;
     constexpr std::uint32_t kExpectedWishHouseReferences = 23;
@@ -159,16 +189,201 @@ namespace
         return normalized.size() >= suffixLength && normalized.compare(normalized.size() - suffixLength, suffixLength, suffix) == 0;
     }
 
+    bool EndsWithSuffix(std::wstring path, std::wstring suffix)
+    {
+        std::replace(path.begin(), path.end(), L'/', L'\\');
+        std::replace(suffix.begin(), suffix.end(), L'/', L'\\');
+        std::transform(path.begin(), path.end(), path.begin(), [](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
+        std::transform(suffix.begin(), suffix.end(), suffix.begin(), [](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
+        while (!suffix.empty() && suffix.front() == L'\\')
+            suffix.erase(suffix.begin());
+        return path == suffix || (path.size() > suffix.size() && path.compare(path.size() - suffix.size(), suffix.size(), suffix) == 0 && path[path.size() - suffix.size() - 1] == L'\\');
+    }
+
+    bool EndsWithSuffix(std::string path, std::string suffix)
+    {
+        std::replace(path.begin(), path.end(), '/', '\\');
+        std::replace(suffix.begin(), suffix.end(), '/', '\\');
+        std::transform(path.begin(), path.end(), path.begin(), [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        std::transform(suffix.begin(), suffix.end(), suffix.begin(), [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        while (!suffix.empty() && suffix.front() == '\\')
+            suffix.erase(suffix.begin());
+        return path == suffix || (path.size() > suffix.size() && path.compare(path.size() - suffix.size(), suffix.size(), suffix) == 0 && path[path.size() - suffix.size() - 1] == '\\');
+    }
+
+    bool IsSoundArchivePath(std::wstring path)
+    {
+        std::replace(path.begin(), path.end(), L'/', L'\\');
+        std::transform(path.begin(), path.end(), path.begin(), [](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
+        const auto soundPosition = path.find(L"data\\sound\\");
+        return soundPosition != std::wstring::npos && path.size() >= 4 && path.compare(path.size() - 4, 4, L".afs") == 0;
+    }
+
+    bool IsSoundArchivePath(const char* path)
+    {
+        if (!path)
+            return false;
+        std::string normalized(path);
+        std::replace(normalized.begin(), normalized.end(), '/', '\\');
+        std::transform(normalized.begin(), normalized.end(), normalized.begin(), [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        const auto soundPosition = normalized.find("data\\sound\\");
+        return soundPosition != std::string::npos && normalized.size() >= 4 && normalized.compare(normalized.size() - 4, 4, ".afs") == 0;
+    }
+
+#if !defined(SH3E_DISABLE_PS2_COSTUMES) && !defined(SH3E_DISABLE_PS2_COSTUME_MODELS)
+    bool IsCostumeArchivePath(std::wstring path)
+    {
+        std::replace(path.begin(), path.end(), L'/', L'\\');
+        std::transform(path.begin(), path.end(), path.begin(), [](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
+        return path == L"data\\arc.arc" || EndsWithSuffix(path, L"data\\arc.arc") ||
+            path == L"data\\chrpl.arc" || EndsWithSuffix(path, L"data\\chrpl.arc");
+    }
+
+    bool IsCostumeArchivePath(const char* path)
+    {
+        if (!path)
+            return false;
+        std::string normalized(path);
+        std::replace(normalized.begin(), normalized.end(), '/', '\\');
+        std::transform(normalized.begin(), normalized.end(), normalized.begin(), [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        return normalized == "data\\arc.arc" || EndsWithSuffix(normalized, std::string("data\\arc.arc")) ||
+            normalized == "data\\chrpl.arc" || EndsWithSuffix(normalized, std::string("data\\chrpl.arc"));
+    }
+#endif
+
+    const std::wstring* FindAudioRedirect(LPCWSTR fileName, std::size_t& redirectIndex)
+    {
+        if (!fileName)
+            return nullptr;
+        for (std::size_t index = 0; index < g_audioArchiveRedirectsW.size(); ++index)
+        {
+            const auto& redirect = g_audioArchiveRedirectsW[index];
+            if (EndsWithSuffix(fileName, redirect.first))
+            {
+                redirectIndex = index;
+                return &redirect.second;
+            }
+        }
+        return nullptr;
+    }
+
+    const std::string* FindAudioRedirect(LPCSTR fileName, std::size_t& redirectIndex)
+    {
+        if (!fileName)
+            return nullptr;
+        for (std::size_t index = 0; index < g_audioArchiveRedirectsA.size(); ++index)
+        {
+            const auto& redirect = g_audioArchiveRedirectsA[index];
+            if (EndsWithSuffix(fileName, redirect.first))
+            {
+                redirectIndex = index;
+                return &redirect.second;
+            }
+        }
+        return nullptr;
+    }
+
+#if !defined(SH3E_DISABLE_PS2_COSTUMES) && !defined(SH3E_DISABLE_PS2_COSTUME_MODELS)
+    const std::wstring* FindCostumeArchiveRedirect(LPCWSTR fileName, std::size_t& redirectIndex)
+    {
+        if (!fileName)
+            return nullptr;
+        for (std::size_t index = 0; index < g_costumeArchiveRedirectsW.size(); ++index)
+        {
+            const auto& redirect = g_costumeArchiveRedirectsW[index];
+            if (EndsWithSuffix(fileName, redirect.first))
+            {
+                redirectIndex = index;
+                return &redirect.second;
+            }
+        }
+        return nullptr;
+    }
+
+    const std::string* FindCostumeArchiveRedirect(LPCSTR fileName, std::size_t& redirectIndex)
+    {
+        if (!fileName)
+            return nullptr;
+        for (std::size_t index = 0; index < g_costumeArchiveRedirectsA.size(); ++index)
+        {
+            const auto& redirect = g_costumeArchiveRedirectsA[index];
+            if (EndsWithSuffix(fileName, redirect.first))
+            {
+                redirectIndex = index;
+                return &redirect.second;
+            }
+        }
+        return nullptr;
+    }
+#endif
+
+    void LogAudioArchiveOpenedOnce(std::size_t redirectIndex)
+    {
+        std::lock_guard<std::mutex> lock(g_audioArchiveRedirectLogMutex);
+        if (redirectIndex >= g_audioArchiveRedirectLogged.size() || redirectIndex >= g_audioArchiveRedirectsA.size() ||
+            g_audioArchiveRedirectLogged[redirectIndex])
+            return;
+        g_audioArchiveRedirectLogged[redirectIndex] = true;
+        sh3e::log::Write("INFO", "[Audio Enhancement Pack] Opened replacement archive " + g_audioArchiveRedirectsA[redirectIndex].first + ".");
+    }
+
+#if !defined(SH3E_DISABLE_PS2_COSTUMES) && !defined(SH3E_DISABLE_PS2_COSTUME_MODELS)
+    void LogCostumeArchiveOpenedOnce(std::size_t redirectIndex)
+    {
+        std::lock_guard<std::mutex> lock(g_audioArchiveRedirectLogMutex);
+        if (redirectIndex >= g_costumeArchiveRedirectLogged.size() || redirectIndex >= g_costumeArchiveRedirectsA.size() ||
+            g_costumeArchiveRedirectLogged[redirectIndex])
+            return;
+        g_costumeArchiveRedirectLogged[redirectIndex] = true;
+        sh3e::log::Write("INFO", "[PS2 costumes] Opened prepared archive " + g_costumeArchiveRedirectsA[redirectIndex].first + ".");
+    }
+#endif
+
     HANDLE WINAPI RedirectedCreateFileA(LPCSTR fileName, DWORD desiredAccess, DWORD shareMode,
         LPSECURITY_ATTRIBUTES securityAttributes, DWORD creationDisposition, DWORD flagsAndAttributes, HANDLE templateFile)
     {
-        if (fileName && EndsWithMsgArchive(fileName))
+        if (fileName && (EndsWithMsgArchive(fileName) || IsSoundArchivePath(fileName)
+#if !defined(SH3E_DISABLE_PS2_COSTUMES) && !defined(SH3E_DISABLE_PS2_COSTUME_MODELS)
+            || IsCostumeArchivePath(fileName)
+#endif
+            ))
         {
-            if (g_overrideArchivePathA.empty() && g_archiveReadyEvent)
-                WaitForSingleObject(g_archiveReadyEvent, 10000);
+            const bool archivesReady = WaitForContentArchiveReady();
+            if (archivesReady)
+            {
             if (!g_overrideArchivePathA.empty() && g_originalCreateFileA)
-                return g_originalCreateFileA(g_overrideArchivePathA.c_str(), desiredAccess, shareMode,
+            {
+                if (EndsWithMsgArchive(fileName))
+                    return g_originalCreateFileA(g_overrideArchivePathA.c_str(), desiredAccess, shareMode,
+                        securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+            }
+            std::size_t redirectIndex = 0;
+            if (const auto* replacementPath = FindAudioRedirect(fileName, redirectIndex); replacementPath && g_originalCreateFileA)
+            {
+                const bool traceFirstOpen = InterlockedCompareExchange(&g_firstAudioArchiveOpenTraceStarted, 1, 0) == 0;
+                const auto openStart = GetTickCount64();
+                if (traceFirstOpen)
+                    sh3e::log::Write("INFO", "[Audio Enhancement Pack] Starting first replacement archive open.");
+                const auto handle = g_originalCreateFileA(replacementPath->c_str(), desiredAccess, shareMode,
                     securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                if (traceFirstOpen)
+                    sh3e::log::Write("INFO", "[Audio Enhancement Pack] First replacement archive open returned after " +
+                        std::to_string(GetTickCount64() - openStart) + " ms.");
+                if (handle != INVALID_HANDLE_VALUE)
+                    LogAudioArchiveOpenedOnce(redirectIndex);
+                return handle;
+            }
+#if !defined(SH3E_DISABLE_PS2_COSTUMES) && !defined(SH3E_DISABLE_PS2_COSTUME_MODELS)
+            if (const auto* replacementPath = FindCostumeArchiveRedirect(fileName, redirectIndex); replacementPath && g_originalCreateFileA)
+            {
+                const auto handle = g_originalCreateFileA(replacementPath->c_str(), desiredAccess, shareMode,
+                    securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                if (handle != INVALID_HANDLE_VALUE)
+                    LogCostumeArchiveOpenedOnce(redirectIndex);
+                return handle;
+            }
+#endif
+            }
         }
 
         return g_originalCreateFileA
@@ -179,13 +394,45 @@ namespace
     HANDLE WINAPI RedirectedCreateFileW(LPCWSTR fileName, DWORD desiredAccess, DWORD shareMode,
         LPSECURITY_ATTRIBUTES securityAttributes, DWORD creationDisposition, DWORD flagsAndAttributes, HANDLE templateFile)
     {
-        if (fileName && EndsWithMsgArchive(fileName))
+        if (fileName && (EndsWithMsgArchive(fileName) || IsSoundArchivePath(fileName)
+#if !defined(SH3E_DISABLE_PS2_COSTUMES) && !defined(SH3E_DISABLE_PS2_COSTUME_MODELS)
+            || IsCostumeArchivePath(fileName)
+#endif
+            ))
         {
-            if (g_overrideArchivePath.empty() && g_archiveReadyEvent)
-                WaitForSingleObject(g_archiveReadyEvent, 10000);
-            if (!g_overrideArchivePath.empty() && g_originalCreateFileW)
+            const bool archivesReady = WaitForContentArchiveReady();
+            if (archivesReady)
+            {
+            if (EndsWithMsgArchive(fileName) && !g_overrideArchivePath.empty() && g_originalCreateFileW)
                 return g_originalCreateFileW(g_overrideArchivePath.c_str(), desiredAccess, shareMode,
                     securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+            std::size_t redirectIndex = 0;
+            if (const auto* replacementPath = FindAudioRedirect(fileName, redirectIndex); replacementPath && g_originalCreateFileW)
+            {
+                const bool traceFirstOpen = InterlockedCompareExchange(&g_firstAudioArchiveOpenTraceStarted, 1, 0) == 0;
+                const auto openStart = GetTickCount64();
+                if (traceFirstOpen)
+                    sh3e::log::Write("INFO", "[Audio Enhancement Pack] Starting first replacement archive open.");
+                const auto handle = g_originalCreateFileW(replacementPath->c_str(), desiredAccess, shareMode,
+                    securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                if (traceFirstOpen)
+                    sh3e::log::Write("INFO", "[Audio Enhancement Pack] First replacement archive open returned after " +
+                        std::to_string(GetTickCount64() - openStart) + " ms.");
+                if (handle != INVALID_HANDLE_VALUE)
+                    LogAudioArchiveOpenedOnce(redirectIndex);
+                return handle;
+            }
+#if !defined(SH3E_DISABLE_PS2_COSTUMES) && !defined(SH3E_DISABLE_PS2_COSTUME_MODELS)
+            if (const auto* replacementPath = FindCostumeArchiveRedirect(fileName, redirectIndex); replacementPath && g_originalCreateFileW)
+            {
+                const auto handle = g_originalCreateFileW(replacementPath->c_str(), desiredAccess, shareMode,
+                    securityAttributes, creationDisposition, flagsAndAttributes, templateFile);
+                if (handle != INVALID_HANDLE_VALUE)
+                    LogCostumeArchiveOpenedOnce(redirectIndex);
+                return handle;
+            }
+#endif
+            }
         }
 
         return g_originalCreateFileW
@@ -459,6 +706,7 @@ namespace
 
 bool InstallContentFileRedirectHooks(HMODULE executable)
 {
+    InterlockedExchange(&g_archiveRedirectWaitTimedOut, 0);
     if (!g_archiveReadyEvent)
         g_archiveReadyEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
 
@@ -472,10 +720,64 @@ bool InstallContentFileRedirectHooks(HMODULE executable)
     return g_fileOpenHooksInstalled;
 }
 
+void SetAudioArchiveRedirects(const std::vector<std::pair<std::wstring, std::wstring>>& redirects)
+{
+    InterlockedExchange(&g_firstAudioArchiveOpenTraceStarted, 0);
+    g_audioArchiveRedirectsW = redirects;
+    g_audioArchiveRedirectsA.clear();
+    g_audioArchiveRedirectLogged.assign(redirects.size(), false);
+    for (const auto& redirect : redirects)
+    {
+        const auto suffixLength = WideCharToMultiByte(CP_ACP, 0, redirect.first.c_str(), -1, nullptr, 0, nullptr, nullptr);
+        const auto pathLength = WideCharToMultiByte(CP_ACP, 0, redirect.second.c_str(), -1, nullptr, 0, nullptr, nullptr);
+        if (suffixLength <= 0 || pathLength <= 0)
+            continue;
+
+        std::string suffix(static_cast<std::size_t>(suffixLength), '\0');
+        std::string path(static_cast<std::size_t>(pathLength), '\0');
+        if (WideCharToMultiByte(CP_ACP, 0, redirect.first.c_str(), -1, suffix.data(), suffixLength, nullptr, nullptr) == 0 ||
+            WideCharToMultiByte(CP_ACP, 0, redirect.second.c_str(), -1, path.data(), pathLength, nullptr, nullptr) == 0)
+            continue;
+        suffix.pop_back();
+        path.pop_back();
+        g_audioArchiveRedirectsA.emplace_back(std::move(suffix), std::move(path));
+    }
+}
+
+#if !defined(SH3E_DISABLE_PS2_COSTUMES) && !defined(SH3E_DISABLE_PS2_COSTUME_MODELS)
+void SetCostumeArchiveRedirects(const std::vector<std::pair<std::wstring, std::wstring>>& redirects)
+{
+    g_costumeArchiveRedirectsW = redirects;
+    g_costumeArchiveRedirectsA.clear();
+    g_costumeArchiveRedirectLogged.assign(redirects.size(), false);
+    for (const auto& redirect : redirects)
+    {
+        const auto suffixLength = WideCharToMultiByte(CP_ACP, 0, redirect.first.c_str(), -1, nullptr, 0, nullptr, nullptr);
+        const auto pathLength = WideCharToMultiByte(CP_ACP, 0, redirect.second.c_str(), -1, nullptr, 0, nullptr, nullptr);
+        if (suffixLength <= 0 || pathLength <= 0)
+            continue;
+
+        std::string suffix(static_cast<std::size_t>(suffixLength), '\0');
+        std::string path(static_cast<std::size_t>(pathLength), '\0');
+        if (WideCharToMultiByte(CP_ACP, 0, redirect.first.c_str(), -1, suffix.data(), suffixLength, nullptr, nullptr) == 0 ||
+            WideCharToMultiByte(CP_ACP, 0, redirect.second.c_str(), -1, path.data(), pathLength, nullptr, nullptr) == 0)
+            continue;
+        suffix.pop_back();
+        path.pop_back();
+        g_costumeArchiveRedirectsA.emplace_back(std::move(suffix), std::move(path));
+    }
+}
+#endif
+
 void SignalContentArchiveReady()
 {
     if (g_archiveReadyEvent)
-        SetEvent(g_archiveReadyEvent);
+    {
+        if (SetEvent(g_archiveReadyEvent))
+            sh3e::log::Write("INFO", "[Content] Archive redirect setup is ready.");
+        else
+            sh3e::log::Write("WARN", "[Content] Could not signal archive redirect readiness; original archives will be used after the short wait.");
+    }
 }
 
 bool InstallContentTextPatches(const std::wstring& gameDirectory, const Config& config)
