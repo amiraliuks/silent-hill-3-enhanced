@@ -10,6 +10,10 @@ void InitializeGraphics(StartupContext& context)
     const auto executable = context.executable;
     context.screen = GetInitialScreenState(config);
 
+    if (config.fontScale != 0 &&
+        !patches::InstallHighResolutionFontRuntime(executable, context.gameDirectory, config.fontScale))
+        log::Write("WARN", "[Fonts] High-resolution font runtime could not be installed; original fonts remain active.");
+
     if ((config.renderResolutionX > 0) != (config.renderResolutionY > 0))
         log::Write("WARN", "[Render resolution] Set both RenderResolutionX and RenderResolutionY; leaving the internal size under game control.");
         

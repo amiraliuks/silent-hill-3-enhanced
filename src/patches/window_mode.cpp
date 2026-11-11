@@ -211,6 +211,8 @@ namespace
                 std::to_string(static_cast<std::uint32_t>(result)) + ".");
         if (SUCCEEDED(result) && device && *device)
         {
+            if (!HookHighResolutionFontDevice(*device))
+                log::Write("WARN", "[Fonts] Could not hook Direct3D 8 font-atlas creation.");
             InstallAnisotropicFiltering(*device, g_anisotropicTextureFiltering);
             HookControllerButtonIconsDevice(*device);
             void* originalReset = nullptr;

@@ -21,10 +21,13 @@ namespace sh3e
         bool fixEnglishTypos = true;
         bool restoreMissingSewerText = true;
         bool unlockSH2EasterEggs = true;
+        bool enablePS2ExclusiveCostumes = true;
+        bool enableAudioEnhancementPack = true;
         bool enableRichPresence = true;
         std::uint32_t cpuAffinityMask = 0;
         std::wstring discordApplicationId = L"1567098391790489640";
         int fmvWidescreenMode = 2;
+        int fontScale = 4;
         int frameRateMode = 60;
         int resolutionX = 0;
         int resolutionY = 0;

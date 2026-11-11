@@ -38,6 +38,10 @@
     <ClCompile Include="src\startup\graphics.cpp"><Filter>Source Files\startup</Filter></ClCompile>
     <ClCompile Include="src\startup\controller.cpp"><Filter>Source Files\startup</Filter></ClCompile>
     <ClCompile Include="src\startup\diagnostics.cpp"><Filter>Source Files\startup</Filter></ClCompile>
+    <ClCompile Include="src\patches\audio_enhancement_pack.cpp"><Filter>Source Files\patches</Filter></ClCompile>
+    <ClCompile Include="src\patches\high_resolution_font.cpp"><Filter>Source Files\patches</Filter></ClCompile>
+    <ClCompile Include="src\patches\ps2_costumes.cpp"><Filter>Source Files\patches</Filter></ClCompile>
+    <ClCompile Include="src\patches\ps2_costume_runtime.cpp"><Filter>Source Files\patches</Filter></ClCompile>
     <ClCompile Include="src\config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -50,6 +54,10 @@
     <ClInclude Include="src\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\patches\audio_enhancement_pack.h"><Filter>Header Files\patches</Filter></ClInclude>
+    <ClInclude Include="src\patches\ps2_costumes.h"><Filter>Header Files\patches</Filter></ClInclude>
+    <ClInclude Include="src\patches\ps2_costume_runtime.h"><Filter>Header Files\patches</Filter></ClInclude>
+    <ClInclude Include="src\patches\ps2_costume_runtime_data.h"><Filter>Header Files\patches</Filter></ClInclude>
   </ItemGroup>
 
   <ItemGroup>
@@ -57,6 +65,10 @@
     <None Include="README.md" />
     <None Include="docs\DATABASE.md" />
     <None Include="docs\FINDINGS.md" />
+    <None Include="docs\AUDIO_ENHANCEMENT_PACK.md" />
+    <None Include="docs\FONT_PACK_FORMAT.md" />
+    <None Include="tools\FontPackSource.cs" />
+    <None Include="tools\build-font-pack.ps1" />
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="silent-hill-3-enhanced.slnx" />

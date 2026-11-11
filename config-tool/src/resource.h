@@ -38,6 +38,8 @@
 #define IDC_FOG_COMPLEXITY             1204
 #define IDC_ANISOTROPIC                1205
 #define IDC_DISABLE_MSAA_DOF           1206
+#define IDC_FONT_SCALE                 1207
+#define IDC_LABEL_FONT_SCALE           1208
 
 #define IDC_REGISTRY_REDIRECT          1300
 #define IDC_DISABLE_SAFE_MODE          1301
@@ -50,6 +52,8 @@
 #define IDC_FIX_TYPOS                  1401
 #define IDC_RESTORE_SEWER_TEXT         1402
 #define IDC_UNLOCK_SH2                 1403
+#define IDC_ENABLE_AUDIO_PACK          1404
+#define IDC_ENABLE_PS2_COSTUMES         1405
 
 #define IDC_LABEL_WINDOW_MODE          1500
 #define IDC_LABEL_OUTPUT_RES           1501

@@ -82,6 +82,9 @@ CpuAffinityMask=0
 ; Enable the highest anisotropic texture-filtering level supported by the device.
 AnisotropicTextureFiltering=true
 
+; Font quality: 0=original, 2=2x, 4=4x (default).
+FontScale=4
+
 ; Disable multisample anti-aliasing requests to avoid corrupting the depth-of-field effect.
 DisableMSAAForDoF=true
 
@@ -150,6 +153,13 @@ RestoreMissingSewerText=true
 ; Unlock the Silent Hill 2 references without a cleared SH2 save.
 UnlockSH2EasterEggs=true
 
+; Restore the fourteen PS2-exclusive media outlet costumes. This feature adds runtime game-memory patches.
+EnablePS2ExclusiveCostumes=true
+
+[Audio]
+; Load the Silent Hill 3 Audio Enhancement Pack when installed. Restart the game after changing this setting.
+EnableAudioEnhancementPack=true
+
 [Discord]
 ; Enable Discord Rich Presence. Enabled by default; set false to turn it off.
 EnableRichPresence=true
@@ -213,6 +223,14 @@ DiscordApplicationId=1567098391790489640
             if (key == L"AnisotropicTextureFiltering")
             {
                 config.anisotropicTextureFiltering = ParseBool(value, config.anisotropicTextureFiltering);
+                continue;
+            }
+
+            if (key == L"FontScale")
+            {
+                int scale = config.fontScale;
+                if (ParseDimension(value, scale) && (scale == 0 || scale == 2 || scale == 4))
+                    config.fontScale = scale;
                 continue;
             }
 
@@ -343,6 +361,7 @@ DiscordApplicationId=1567098391790489640
             else if (key == L"FixEnglishTypos") config.fixEnglishTypos = ParseBool(value, config.fixEnglishTypos);
             else if (key == L"RestoreMissingSewerText") config.restoreMissingSewerText = ParseBool(value, config.restoreMissingSewerText);
             else if (key == L"UnlockSH2EasterEggs") config.unlockSH2EasterEggs = ParseBool(value, config.unlockSH2EasterEggs);
+            else if (key == L"EnablePS2ExclusiveCostumes") config.enablePS2ExclusiveCostumes = ParseBool(value, config.enablePS2ExclusiveCostumes);
         }
         else if (section == L"Discord")
         {
@@ -356,6 +375,15 @@ DiscordApplicationId=1567098391790489640
             else if (key == L"DiscordApplicationId" && value.size() <= 19 &&
                 std::all_of(value.begin(), value.end(), [](wchar_t c) { return c >= L'0' && c <= L'9'; }))
                 config.discordApplicationId = value;
+        }
+        else if (section == L"Audio")
+        {
+            const auto equals = line.find(L'=');
+            if (equals == std::wstring::npos) continue;
+            const auto key = Trim(line.substr(0, equals));
+            const auto value = Trim(line.substr(equals + 1));
+            if (key == L"EnableAudioEnhancementPack")
+                config.enableAudioEnhancementPack = ParseBool(value, config.enableAudioEnhancementPack);
         }
     }
 
@@ -388,6 +416,7 @@ bool sh3e::SaveConfig(const std::wstring& path, const Config& config)
     ok &= writeBool(L"System", L"FixMutedAudio", config.fixMutedAudio);
     ok &= writeMask();
     ok &= writeBool(L"Graphics", L"AnisotropicTextureFiltering", config.anisotropicTextureFiltering);
+    ok &= writeInt(L"Graphics", L"FontScale", config.fontScale);
     ok &= writeBool(L"Graphics", L"DisableMSAAForDoF", config.disableMsaaForDof);
     ok &= writeInt(L"Graphics", L"ResolutionX", config.resolutionX);
     ok &= writeInt(L"Graphics", L"ResolutionY", config.resolutionY);
@@ -412,6 +441,8 @@ bool sh3e::SaveConfig(const std::wstring& path, const Config& config)
     ok &= writeBool(L"Content", L"FixEnglishTypos", config.fixEnglishTypos);
     ok &= writeBool(L"Content", L"RestoreMissingSewerText", config.restoreMissingSewerText);
     ok &= writeBool(L"Content", L"UnlockSH2EasterEggs", config.unlockSH2EasterEggs);
+    ok &= writeBool(L"Content", L"EnablePS2ExclusiveCostumes", config.enablePS2ExclusiveCostumes);
+    ok &= writeBool(L"Audio", L"EnableAudioEnhancementPack", config.enableAudioEnhancementPack);
     ok &= writeBool(L"Discord", L"EnableRichPresence", config.enableRichPresence);
     ok &= WritePrivateProfileStringW(L"Discord", L"DiscordApplicationId", config.discordApplicationId.c_str(), path.c_str()) != FALSE;
     WritePrivateProfileStringW(nullptr, nullptr, nullptr, path.c_str());

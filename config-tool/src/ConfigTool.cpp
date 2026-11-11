@@ -50,6 +50,7 @@ namespace
         { IDC_FOG_COMPLEXITY, L"Fog complexity", L"Set the fog-detail coefficient. The executable default is 25; 0 leaves the game's value unchanged." },
         { IDC_ANISOTROPIC, L"Anisotropic filtering", L"Use the highest anisotropic texture-filtering level supported by the device." },
         { IDC_DISABLE_MSAA_DOF, L"MSAA and depth of field", L"Stop multisample anti-aliasing requests that can corrupt depth of field. This setting does not add FXAA." },
+        { IDC_FONT_SCALE, L"Font quality", L"Choose Original, 2x, or 4x glyph coverage. The 4x pack is used for both enhanced modes. Install fontdata.sh3f in SH3 Enhanced Data\\Fonts. Restart the game after changing it." },
         { IDC_REGISTRY_REDIRECT, L"Registry redirect", L"Use per-user registry paths for the running game folder." },
         { IDC_DISABLE_SAFE_MODE, L"Disable safe-mode reset", L"Skip the startup fallback that resets graphics settings and rewrites disp.ini after an abnormal exit." },
         { IDC_WHITE_BORDER, L"White border fix", L"Remove the bright extended window edge that can appear on modern Windows." },
@@ -58,6 +59,8 @@ namespace
         { IDC_FIX_MUTED_AUDIO, L"Muted audio recovery", L"Clear a persisted mute on SH3's Windows audio session after the game starts. The check runs once when the game's audio session becomes available; it does not keep overriding volume changes during play." },
         { IDC_ENABLE_LOGGING, L"Plugin log", L"Write plugin startup and patch details to SH3Enhanced.log." },
         { IDC_ENABLE_RICH_PRESENCE, L"Discord Rich Presence", L"Show your current Silent Hill 3 area and health in Discord. Requires a valid Discord application ID in SH3Enhanced.ini and the bundled Game SDK. When disabled, the SDK is not checked or loaded." },
+        { IDC_ENABLE_AUDIO_PACK, L"Audio Enhancement Pack", L"Load the PS2 audio replacements from SH3 Enhanced Data when enabled and installed. Turn this off to compare with the original PC audio. Restart the game for the setting to take effect." },
+        { IDC_ENABLE_PS2_COSTUMES, L"PS2-exclusive costumes", L"Enable the fourteen PS2 media outlet costume passwords, wardrobe entries, and model patches. Turn this off to skip all PS2 costume runtime patches. Restart the game for the setting to take effect." },
         { IDC_BUTTON_ICON_STYLE, L"Controller prompts", L"Choose which controller prompt family to show in Control Options. Off keeps the game's original labels." },
         { IDC_FIX_WISH_HOUSE, L"Wish House text fix", L"Correct English references to Hope House in the message archive." },
         { IDC_FIX_TYPOS, L"English typo fixes", L"Correct the identified subway, apartment, and hospital text errors." },
@@ -80,6 +83,7 @@ namespace
         case IDC_LABEL_INVENTORY_RES: return IDC_INVENTORY_RES;
         case IDC_LABEL_STATUS_RES: return IDC_STATUS_RES;
         case IDC_LABEL_FOG: return IDC_FOG_COMPLEXITY;
+        case IDC_LABEL_FONT_SCALE: return IDC_FONT_SCALE;
         case IDC_LABEL_CPU_MASK: return IDC_CPU_AFFINITY;
         default: return id;
         }
@@ -207,6 +211,7 @@ namespace
             SetNumber(page, IDC_INVENTORY_RES, g_config.inventoryResolution); SetNumber(page, IDC_STATUS_RES, g_config.statusScreenResolution);
             SetNumber(page, IDC_FOG_COMPLEXITY, g_config.fogComplexity);
             SetCheck(page, IDC_ANISOTROPIC, g_config.anisotropicTextureFiltering); SetCheck(page, IDC_DISABLE_MSAA_DOF, g_config.disableMsaaForDof);
+            SendDlgItemMessageW(page, IDC_FONT_SCALE, CB_SETCURSEL, g_config.fontScale == 0 ? 0 : g_config.fontScale == 2 ? 1 : 2, 0);
         }
         page = g_pages[2];
         if (page)
@@ -224,6 +229,8 @@ namespace
         {
             SetCheck(page, IDC_FIX_WISH_HOUSE, g_config.fixWishHouse); SetCheck(page, IDC_FIX_TYPOS, g_config.fixEnglishTypos);
             SetCheck(page, IDC_RESTORE_SEWER_TEXT, g_config.restoreMissingSewerText); SetCheck(page, IDC_UNLOCK_SH2, g_config.unlockSH2EasterEggs);
+            SetCheck(page, IDC_ENABLE_AUDIO_PACK, g_config.enableAudioEnhancementPack);
+            SetCheck(page, IDC_ENABLE_PS2_COSTUMES, g_config.enablePS2ExclusiveCostumes);
         }
     }
 
@@ -268,6 +275,8 @@ namespace
         g_config.inventoryResolution = ReadNumber(page, IDC_INVENTORY_RES); g_config.statusScreenResolution = ReadNumber(page, IDC_STATUS_RES);
         g_config.fogComplexity = ReadNumber(page, IDC_FOG_COMPLEXITY);
         g_config.anisotropicTextureFiltering = IsChecked(page, IDC_ANISOTROPIC); g_config.disableMsaaForDof = IsChecked(page, IDC_DISABLE_MSAA_DOF);
+        const int fontScale = static_cast<int>(SendDlgItemMessageW(page, IDC_FONT_SCALE, CB_GETCURSEL, 0, 0));
+        g_config.fontScale = fontScale == 0 ? 0 : fontScale == 1 ? 2 : 4;
 
         page = g_pages[2];
         g_config.registryRedirect = IsChecked(page, IDC_REGISTRY_REDIRECT); g_config.disableSafeMode = IsChecked(page, IDC_DISABLE_SAFE_MODE);
@@ -288,6 +297,8 @@ namespace
         page = g_pages[3];
         g_config.fixWishHouse = IsChecked(page, IDC_FIX_WISH_HOUSE); g_config.fixEnglishTypos = IsChecked(page, IDC_FIX_TYPOS);
         g_config.restoreMissingSewerText = IsChecked(page, IDC_RESTORE_SEWER_TEXT); g_config.unlockSH2EasterEggs = IsChecked(page, IDC_UNLOCK_SH2);
+        g_config.enableAudioEnhancementPack = IsChecked(page, IDC_ENABLE_AUDIO_PACK);
+        g_config.enablePS2ExclusiveCostumes = IsChecked(page, IDC_ENABLE_PS2_COSTUMES);
 
         const auto validDimension = [](int n, int max) { return n >= 0 && n <= max; };
         if (!validDimension(g_config.resolutionX, 16384) || !validDimension(g_config.resolutionY, 16384) ||
@@ -406,7 +417,7 @@ namespace
         const int buttonHeight = max(24, closeRect.bottom - closeRect.top);
         const int buttonY = height - buttonHeight - 8;
         const int closeWidth = max(64, closeRect.right - closeRect.left);
-        const int defaultsWidth = max(90, defaultsRect.right - defaultsRect.left);
+        const int defaultsWidth = max(84, defaultsRect.right - defaultsRect.left);
         const int launchLabelWidth = max(82, launchLabelRect.right - launchLabelRect.left);
         const int comboWidth = max(94, comboRect.right - comboRect.left);
         const int browseWidth = max(24, browseRect.right - browseRect.left);
@@ -440,10 +451,12 @@ namespace
             constexpr const wchar_t* frameRates[] = { L"Unlocked", L"30 FPS", L"60 FPS" };
             constexpr const wchar_t* fmvModes[] = { L"4:3", L"16:9 (crop)", L"16:9 source" };
             constexpr const wchar_t* buttonStyles[] = { L"Off", L"Generic", L"Xbox", L"PlayStation", L"Nintendo" };
+            constexpr const wchar_t* fontScales[] = { L"Original", L"2x", L"4x (default)" };
             addOptions(IDC_WINDOW_MODE, windowModes, static_cast<int>(std::size(windowModes)));
             addOptions(IDC_FRAME_RATE, frameRates, static_cast<int>(std::size(frameRates)));
             addOptions(IDC_FMV_MODE, fmvModes, static_cast<int>(std::size(fmvModes)));
             addOptions(IDC_BUTTON_ICON_STYLE, buttonStyles, static_cast<int>(std::size(buttonStyles)));
+            addOptions(IDC_FONT_SCALE, fontScales, static_cast<int>(std::size(fontScales)));
             return TRUE;
         }
         if (message == WM_COMMAND && HIWORD(wParam) != EN_CHANGE)

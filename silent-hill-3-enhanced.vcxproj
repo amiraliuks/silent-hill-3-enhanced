@@ -86,7 +86,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(EnablePS2Costumes)' == 'false'">WIN32;NDEBUG;SH3E_DISABLE_PS2_COSTUMES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(EnablePS2Costumes)' != 'false' and '$(EnablePS2CostumeModels)' == 'false'">WIN32;NDEBUG;SH3E_DISABLE_PS2_COSTUME_MODELS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(EnablePS2Costumes)' != 'false' and '$(EnablePS2CostumeInventory)' == 'false'">WIN32;NDEBUG;SH3E_DISABLE_PS2_COSTUME_INVENTORY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(EnablePS2Costumes)' != 'false' and '$(EnablePS2CostumeModels)' != 'false' and '$(EnablePS2CostumeInventory)' != 'false'">WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)third_party\discord-game-sdk\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -133,6 +136,10 @@
     <ClCompile Include="src\patches\frame_rate.cpp" />
     <ClCompile Include="src\patches\mirror_room.cpp" />
     <ClCompile Include="src\patches\content_text.cpp" />
+    <ClCompile Include="src\patches\high_resolution_font.cpp" />
+    <ClCompile Include="src\patches\audio_enhancement_pack.cpp" />
+    <ClCompile Include="src\patches\ps2_costumes.cpp" Condition="'$(EnablePS2Costumes)' != 'false'" />
+    <ClCompile Include="src\patches\ps2_costume_runtime.cpp" Condition="'$(EnablePS2Costumes)' != 'false' and '$(EnablePS2CostumeModels)' != 'false'" />
     <ClCompile Include="src\patches\unlock_sh2_easter_eggs.cpp" />
     <ClCompile Include="src\patches\registry_redirect.cpp" />
     <ClCompile Include="src\patches\window_mode.cpp" />
@@ -156,6 +163,9 @@
     <ClInclude Include="src\discord_presence.h" />
     <ClInclude Include="src\game_state.h" />
     <ClInclude Include="src\patches\patches.h" />
+    <ClInclude Include="src\patches\ps2_costumes.h" />
+    <ClInclude Include="src\patches\ps2_costume_runtime.h" Condition="'$(EnablePS2Costumes)' != 'false' and '$(EnablePS2CostumeModels)' != 'false'" />
+    <ClInclude Include="src\patches\ps2_costume_runtime_data.h" Condition="'$(EnablePS2Costumes)' != 'false' and '$(EnablePS2CostumeModels)' != 'false'" />
     <ClInclude Include="src\patches\patch_utils.h" />
     <ClInclude Include="src\patches\muted_audio.h" />
     <ClInclude Include="src\resources\resource_ids.h" />
@@ -165,6 +175,9 @@
     <None Include="SH3Enhanced.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="docs\FONT_PACK_FORMAT.md" />
+    <None Include="tools\FontPackSource.cs" />
+    <None Include="tools\build-font-pack.ps1" />
   </ItemGroup>
 
   <Target Name="CopyDiscordGameSdk" AfterTargets="Build">
@@ -177,9 +190,14 @@
     <Copy SourceFiles="$(ProjectDir)third_party\xidi\bin\x86\Xidi.32.dll"
           DestinationFolder="$(OutDir)"
           SkipUnchangedFiles="true" />
-    <Copy SourceFiles="$(ProjectDir)third_party\xidi\LICENSE"
-          DestinationFiles="$(OutDir)Xidi-LICENSE.txt"
+  </Target>
+
+  <Target Name="CopyThirdPartyLicenses" AfterTargets="Build">
+    <MakeDir Directories="$(OutDir)SH3 Enhanced Data\Licenses" />
+    <Copy SourceFiles="$(ProjectDir)third_party\ultimate-asi-loader\LICENSE.txt;$(ProjectDir)third_party\xidi\LICENSE;$(ProjectDir)third_party\discord-game-sdk\NOTICE.md;$(ProjectDir)third_party\fonts\noto-cjk\OFL.txt;$(ProjectDir)third_party\widescreenfixespack\LICENSE.txt;$(ProjectDir)third_party\kenney-input-prompts\LICENSE.txt"
+          DestinationFiles="$(OutDir)SH3 Enhanced Data\Licenses\Ultimate-ASI-Loader-LICENSE.txt;$(OutDir)SH3 Enhanced Data\Licenses\Xidi-LICENSE.txt;$(OutDir)SH3 Enhanced Data\Licenses\Discord-Game-SDK-NOTICE.md;$(OutDir)SH3 Enhanced Data\Licenses\Noto-Serif-CJK-OFL.txt;$(OutDir)SH3 Enhanced Data\Licenses\Silent-Hill-3-Widescreen-Fix-LICENSE.txt;$(OutDir)SH3 Enhanced Data\Licenses\Kenney-Input-Prompts-LICENSE.txt"
           SkipUnchangedFiles="true" />
+    <Delete Files="$(OutDir)Xidi-LICENSE.txt;$(OutDir)Ultimate-ASI-Loader-LICENSE.txt;$(OutDir)SH3 Enhanced Data\Fonts\OFL-Noto-Serif-CJK.txt;$(OutDir)SH3 Enhanced Data\Licenses\Discord Game SDK\NOTICE.md" />
   </Target>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
