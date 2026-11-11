@@ -2,6 +2,9 @@
 #include "../config.h"
 #include "../screen_state.h"
 #include <Windows.h>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace sh3e::patches
 {
@@ -20,6 +23,13 @@ namespace sh3e::patches
     bool InstallFrameRatePatch(HMODULE executable, int mode);
     bool InstallMirrorRoomPatch(HMODULE executable, bool enabled, int frameRateMode);
     bool InstallContentFileRedirectHooks(HMODULE executable);
+    void SetAudioArchiveRedirects(const std::vector<std::pair<std::wstring, std::wstring>>& redirects);
+    void SetCostumeArchiveRedirects(const std::vector<std::pair<std::wstring, std::wstring>>& redirects);
+    bool PreparePS2CostumeArchiveRedirects(const std::wstring& gameDirectory,
+        std::vector<std::pair<std::wstring, std::wstring>>& redirects);
+    bool InstallPS2CostumeResourcePaths(void* executable);
+    bool InstallPS2CostumePasswordTable(void* executable);
+    bool InstallPS2CostumeModelRuntime(void* executable);
     void SignalContentArchiveReady();
     bool InstallContentTextPatches(const std::wstring& gameDirectory, const Config& config);
     bool InstallSH2EasterEggUnlock(HMODULE executable);
@@ -33,6 +43,8 @@ namespace sh3e::patches
     bool InstallAnisotropicFiltering(void* device, bool enabled);
     bool InstallControllerButtonIcons(HMODULE executable, int style, HMODULE pluginModule);
     bool HookControllerButtonIconsDevice(void* device);
+    bool InstallHighResolutionFontRuntime(HMODULE executable, const std::wstring& gameDirectory, int scale);
+    bool HookHighResolutionFontDevice(void* device);
     bool SetAnisotropicFilteringLive(bool enabled);
     void ReapplyAnisotropicFiltering(void* device);
     void SetMsaaDoFFixEnabled(bool enabled);
