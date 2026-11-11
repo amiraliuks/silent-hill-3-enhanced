@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <img src="https://i.imgur.com/Sbdf12A.png" alt="Silent Hill 3 Enhanced in-game screenshot" width="900">
+  <img src="https://i.imgur.com/Sbdf12A.png" alt="Silent Hill 3 Enhanced logo" width="900">
 </p>
 
 SH3 Enhanced is a project that makes the PC version of *Silent Hill 3* run properly on modern systems, with widescreen, 60 FPS, controller support, and fixes for long-standing bugs.
@@ -46,6 +46,7 @@ The mod runs as an ASI plugin and does not include game data. It is an independe
 
 - English typo corrections, restored sewer wine-rack text, and the “Hope House” to “Wish House” correction.
 - Unlocks the four Silent Hill 2 references without requiring a cleared SH2 save.
+- Restores the fourteen PS2-exclusive media outlet costumes, including their passwords and wardrobe entries. The runtime extension can be disabled with `EnablePS2ExclusiveCostumes`.
 - Redirects SH3 registry paths to the folder containing the running game.
 
 The features above have been implemented; some graphics behavior and compatibility still depend on the game executable and display setup. The experimental `InventoryRes` behavior is called out separately because it has a known visual artifact.
@@ -55,10 +56,8 @@ The features above have been implemented; some graphics behavior and compatibili
 - Upscale the title/splash artwork and establish a reversible replacement workflow. (`data/pic/sy/sys_title.tex` (512×512); the opening movie is a separate asset)
 - Identify and assess the inventory backdrop and item atlases. The known item atlases are already 1024×1024.
 - Add a safe way to load custom picture replacements, including files stored in `pic.arc`, without editing original game files.
-- Find a way to add the PS2-exclusive media outlet costumes to the PC version. ([Costume list and codes](https://www.silenthillmemories.net/sh3/costumes_en.htm))
 - Investigate ways to enhance or replace SH3's FMVs, inspired by the FMV Enhancement Pack in [Silent Hill 2: Enhanced Edition](https://enhanced.townofsilenthill.com/SH2/about.htm).
-- Implement Achievement system, using the achievements of Silent Hill HD Collection.
-- Find way to use the [Silent Hill 3 Audio Enhancement Pack](https://www.moddb.com/mods/silent-hill-3-audio-enhancement-pack) without installing [Reloaded II](https://github.com/Reloaded-Project/Reloaded-II).
+- Research and implement an optional local achievement system inspired by Silent Hill HD Collection's SH3 achievements.
 - Leave audio restoration for later: investigate missing dialogue, optional beta sounds, and the `PulseEvent` synchronization issue.
 
 ## Installation
@@ -75,9 +74,16 @@ The supported game executable has CRC32 `372AE792`; other versions may not match
 
 Use the **SH3 Enhanced Configuration Tool** or edit `SH3Enhanced.ini` directly. The tool can save settings beside a selected `sh3.exe` and launch the game; it does not install the ASI plugin or loader. Settings apply after restarting the game.
 
-<p align="center">
-  <img src="https://i.imgur.com/T7YkD6t.png" alt="SH3 Enhanced Configuration Tool" width="700">
-</p>
+<table>
+  <tr>
+    <th>Configuration Tool</th>
+    <th>Direct INI editing</th>
+  </tr>
+  <tr>
+    <td><img src="web/assets/visual-comparisons/config-tool.png" alt="SH3 Enhanced Configuration Tool showing display and performance settings" width="100%"></td>
+    <td><img src="web/assets/visual-comparisons/ini-editing.png" alt="SH3Enhanced.ini open in a text editor" width="100%"></td>
+  </tr>
+</table>
 
 Edit `SH3Enhanced.ini` in the game folder. These are the settings most users may want to change:
 
@@ -98,7 +104,9 @@ Edit `SH3Enhanced.ini` in the game folder. These are the settings most users may
 | `MirrorRoomFix` | `true` | Temporarily cap the mirror storeroom at 30 FPS. Requires `FrameRateMode=60`. |
 | `ReplaceButtonText` | `3` | Controller prompts: `0` game labels, `1` generic, `2` Xbox, `3` PlayStation, `4` Nintendo. |
 | `EnableRichPresence` | `true` | Enable Discord Rich Presence. Set to `false` to skip loading its optional Game SDK. |
+| `EnableAudioEnhancementPack` | `true` | Load the installed PS2 audio replacements. Set to `false` to use the original PC audio; restart the game after changing it. |
 | `AnisotropicTextureFiltering` | `true` | Use the highest anisotropy level supported by the device. |
+| `FontScale` | `4` | `0` original font, `2` 2× coverage, or `4` 4× coverage from `SH3 Enhanced Data\Fonts\fontdata.sh3f`. If the optional pack is absent, the game keeps its original font. Restart the game after changing it. |
 | `DisableMSAAForDoF` | `true` | Prevent multisample requests that can corrupt depth of field. Does not add FXAA. |
 | `RemoveCutsceneBorders` | `true` | Remove the borders added to in-engine cutscenes. |
 | `DisableSafeMode` | `true` | Prevent graphics settings from being reset after an abnormal exit. |
@@ -109,6 +117,7 @@ Edit `SH3Enhanced.ini` in the game folder. These are the settings most users may
 | `FixMutedAudio` | `true` | Clear a persisted Windows audio-session mute when SH3 starts. |
 | `FixWishHouse`, `FixEnglishTypos`, `RestoreMissingSewerText` | `true` | Enable the corresponding English text corrections. |
 | `UnlockSH2EasterEggs` | `true` | Show the four SH2 references without a completed SH2 save. |
+| `EnablePS2ExclusiveCostumes` | `true` | Enable the PS2 costume passwords, wardrobe entries, and runtime model patches. Set to `false` to skip all PS2 costume patches. |
 | `EnableLogging` | `true` | Write `SH3Enhanced.log` beside `sh3.exe`. |
 
 For example, set `ResolutionX=1920` and `ResolutionY=1080` to request a 1920×1080 output buffer. Set both render-resolution values separately only if you also want to force the internal render size. In exclusive fullscreen, SH3 may switch the display mode to match a forced output size. Windowed and borderless modes avoid that exclusive display-mode switch.
@@ -142,7 +151,7 @@ The executable is written to `build/ConfigTool/Win32/Release/SH3Enhanced Config 
 - `config-tool/` contains the Windows Configuration Tool.
 - `docs/DATABASE.md` indexes executable locations and research references.
 - `docs/reverse-engineering.md` records executable findings and unverified behavior.
-- `third_party/` contains the Discord Game SDK, Xidi, selected Kenney controller prompts, and third-party license notices.
+- `third_party/` contains the Discord Game SDK, Xidi, selected Kenney controller prompts, and third-party license notices. Builds and installs collect the notices in `SH3 Enhanced Data/Licenses/`.
 - `tools/BuildControllerIconAtlas.ps1` regenerates the embedded controller prompt atlas.
 - `web/` contains the static project website.
 
